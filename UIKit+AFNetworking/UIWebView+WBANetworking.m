@@ -1,6 +1,6 @@
-// UIWebView+AFNetworking.m
+// UIWebView+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIWebView+AFNetworking.h"
+#import "UIWebView+WBANetworking.h"
 
 #import <objc/runtime.h>
 
@@ -30,11 +30,11 @@
 #import "WBAURLResponseSerialization.h"
 #import "WBAURLRequestSerialization.h"
 
-@interface UIWebView (_AFNetworking)
+@interface UIWebView (_WBANetworking)
 @property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) WBAHTTPRequestOperation *af_HTTPRequestOperation;
 @end
 
-@implementation UIWebView (_AFNetworking)
+@implementation UIWebView (_WBANetworking)
 
 - (WBAHTTPRequestOperation *)af_HTTPRequestOperation {
     return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
@@ -48,7 +48,7 @@
 
 #pragma mark -
 
-@implementation UIWebView (AFNetworking)
+@implementation UIWebView (WBANetworking)
 
 - (WBAHTTPRequestSerializer <WBAURLRequestSerialization> *)requestSerializer {
     static WBAHTTPRequestSerializer <WBAURLRequestSerialization> *_af_defaultRequestSerializer = nil;

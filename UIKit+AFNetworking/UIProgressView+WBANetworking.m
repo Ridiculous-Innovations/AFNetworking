@@ -1,6 +1,6 @@
-// UIProgressView+AFNetworking.m
+// UIProgressView+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIProgressView+AFNetworking.h"
+#import "UIProgressView+WBANetworking.h"
 
 #import <objc/runtime.h>
 
@@ -53,7 +53,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 
 #pragma mark -
 
-@implementation UIProgressView (AFNetworking)
+@implementation UIProgressView (WBANetworking)
 
 - (BOOL)af_uploadProgressAnimated {
     return [(NSNumber *)objc_getAssociatedObject(self, @selector(af_uploadProgressAnimated)) boolValue];

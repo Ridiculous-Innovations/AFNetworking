@@ -1,6 +1,6 @@
-// UIImageView+AFNetworking.m
+// UIImageView+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WBANetworking.h"
 
 #import <objc/runtime.h>
 
@@ -33,11 +33,11 @@
 
 #pragma mark -
 
-@interface UIImageView (_AFNetworking)
+@interface UIImageView (_WBANetworking)
 @property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) WBAHTTPRequestOperation *af_imageRequestOperation;
 @end
 
-@implementation UIImageView (_AFNetworking)
+@implementation UIImageView (_WBANetworking)
 
 + (NSOperationQueue *)af_sharedImageRequestOperationQueue {
     static NSOperationQueue *_af_sharedImageRequestOperationQueue = nil;
@@ -62,7 +62,7 @@
 
 #pragma mark -
 
-@implementation UIImageView (AFNetworking)
+@implementation UIImageView (WBANetworking)
 @dynamic imageResponseSerializer;
 
 + (id <AFImageCache>)sharedImageCache {

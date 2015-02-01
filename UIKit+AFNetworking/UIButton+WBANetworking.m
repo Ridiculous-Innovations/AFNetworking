@@ -1,6 +1,6 @@
-// UIButton+AFNetworking.m
+// UIButton+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIButton+AFNetworking.h"
+#import "UIButton+WBANetworking.h"
 
 #import <objc/runtime.h>
 
@@ -29,12 +29,12 @@
 #import "WBAURLResponseSerialization.h"
 #import "WBAHTTPRequestOperation.h"
 
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+WBANetworking.h"
 
-@interface UIButton (_AFNetworking)
+@interface UIButton (_WBANetworking)
 @end
 
-@implementation UIButton (_AFNetworking)
+@implementation UIButton (_WBANetworking)
 
 + (NSOperationQueue *)af_sharedImageRequestOperationQueue {
     static NSOperationQueue *_af_sharedImageRequestOperationQueue = nil;
@@ -113,7 +113,7 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
 
 #pragma mark -
 
-@implementation UIButton (AFNetworking)
+@implementation UIButton (WBANetworking)
 
 + (id <AFImageCache>)sharedImageCache {
 #pragma clang diagnostic push

@@ -1,6 +1,6 @@
-// UIAlertView+AFNetworking.h
+// UIAlertView+WBANetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@
 /**
  This category adds methods to the UIKit framework's `UIAlertView` class. The methods in this category provide support for automatically showing an alert if a session task or request operation finishes with an error. Alert title and message are filled from the corresponding `localizedDescription` & `localizedRecoverySuggestion` or `localizedFailureReason` of the error.
  */
-@interface UIAlertView (AFNetworking)
+@interface UIAlertView (WBANetworking)
 
 ///-------------------------------------
 /// @name Showing Alert for Session Task

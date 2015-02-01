@@ -1,6 +1,6 @@
 // WBANetworkReachabilityManager.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@
 #import <ifaddrs.h>
 #import <netdb.h>
 
-NSString * const AFNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
-NSString * const AFNetworkingReachabilityNotificationStatusItem = @"AFNetworkingReachabilityNotificationStatusItem";
+NSString * const WBANetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
+NSString * const WBANetworkingReachabilityNotificationStatusItem = @"WBANetworkingReachabilityNotificationStatusItem";
 
 typedef void (^AFNetworkReachabilityStatusBlock)(AFNetworkReachabilityStatus status);
 
@@ -42,14 +42,14 @@ typedef NS_ENUM(NSUInteger, AFNetworkReachabilityAssociation) {
 NSString * AFStringFromNetworkReachabilityStatus(AFNetworkReachabilityStatus status) {
     switch (status) {
         case AFNetworkReachabilityStatusNotReachable:
-            return NSLocalizedStringFromTable(@"Not Reachable", @"AFNetworking", nil);
+            return NSLocalizedStringFromTable(@"Not Reachable", @"WBANetworking", nil);
         case AFNetworkReachabilityStatusReachableViaWWAN:
-            return NSLocalizedStringFromTable(@"Reachable via WWAN", @"AFNetworking", nil);
+            return NSLocalizedStringFromTable(@"Reachable via WWAN", @"WBANetworking", nil);
         case AFNetworkReachabilityStatusReachableViaWiFi:
-            return NSLocalizedStringFromTable(@"Reachable via WiFi", @"AFNetworking", nil);
+            return NSLocalizedStringFromTable(@"Reachable via WiFi", @"WBANetworking", nil);
         case AFNetworkReachabilityStatusUnknown:
         default:
-            return NSLocalizedStringFromTable(@"Unknown", @"AFNetworking", nil);
+            return NSLocalizedStringFromTable(@"Unknown", @"WBANetworking", nil);
     }
 }
 
@@ -86,7 +86,7 @@ static void AFNetworkReachabilityCallback(SCNetworkReachabilityRef __unused targ
 
     dispatch_async(dispatch_get_main_queue(), ^{
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter postNotificationName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:@{ AFNetworkingReachabilityNotificationStatusItem: @(status) }];
+        [notificationCenter postNotificationName:WBANetworkingReachabilityDidChangeNotification object:nil userInfo:@{ WBANetworkingReachabilityNotificationStatusItem: @(status) }];
     });
 
 }
@@ -216,7 +216,7 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
                     callback(status);
 
                     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                    [notificationCenter postNotificationName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:@{ AFNetworkingReachabilityNotificationStatusItem: @(status) }];
+                    [notificationCenter postNotificationName:WBANetworkingReachabilityDidChangeNotification object:nil userInfo:@{ WBANetworkingReachabilityNotificationStatusItem: @(status) }];
 
 
                 });

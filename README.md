@@ -1,48 +1,48 @@
 <p align="center" >
-  <img src="https://raw.github.com/AFNetworking/AFNetworking/assets/afnetworking-logo.png" alt="AFNetworking" title="AFNetworking">
+  <img src="https://raw.github.com/WBANetworking/WBANetworking/assets/WBANetworking-logo.png" alt="WBANetworking" title="WBANetworking">
 </p>
 
-[![Build Status](https://travis-ci.org/AFNetworking/AFNetworking.svg)](https://travis-ci.org/AFNetworking/AFNetworking)
+[![Build Status](https://travis-ci.org/WBANetworking/WBANetworking.svg)](https://travis-ci.org/WBANetworking/WBANetworking)
 
-AFNetworking is a delightful networking library for iOS and Mac OS X. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
+WBANetworking is a delightful networking library for iOS and Mac OS X. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
 
-Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to AFNetworking every day. AFNetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.
+Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to WBANetworking every day. WBANetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.
 
-Choose AFNetworking for your next project, or migrate over your existing projects—you'll be happy you did!
+Choose WBANetworking for your next project, or migrate over your existing projects—you'll be happy you did!
 
 ## How To Get Started
 
-- [Download AFNetworking](https://github.com/AFNetworking/AFNetworking/archive/master.zip) and try out the included Mac and iPhone example apps
-- Read the ["Getting Started" guide](https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking), [FAQ](https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-FAQ), or [other articles on the Wiki](https://github.com/AFNetworking/AFNetworking/wiki)
-- Check out the [documentation](http://cocoadocs.org/docsets/AFNetworking/) for a comprehensive look at all of the APIs available in AFNetworking
-- Read the [AFNetworking 2.0 Migration Guide](https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide) for an overview of the architectural changes from 1.0.
+- [Download WBANetworking](https://github.com/WBANetworking/WBANetworking/archive/master.zip) and try out the included Mac and iPhone example apps
+- Read the ["Getting Started" guide](https://github.com/WBANetworking/WBANetworking/wiki/Getting-Started-with-WBANetworking), [FAQ](https://github.com/WBANetworking/WBANetworking/wiki/WBANetworking-FAQ), or [other articles on the Wiki](https://github.com/WBANetworking/WBANetworking/wiki)
+- Check out the [documentation](http://cocoadocs.org/docsets/WBANetworking/) for a comprehensive look at all of the APIs available in WBANetworking
+- Read the [WBANetworking 2.0 Migration Guide](https://github.com/WBANetworking/WBANetworking/wiki/WBANetworking-2.0-Migration-Guide) for an overview of the architectural changes from 1.0.
 
 ## Communication
 
-- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking). (Tag 'afnetworking')
-- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/afnetworking).
+- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/WBANetworking). (Tag 'WBANetworking')
+- If you'd like to **ask a general question**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/WBANetworking).
 - If you **found a bug**, _and can provide steps to reliably reproduce it_, open an issue.
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
 
 ### Installation with CocoaPods
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like AFNetworking in your projects. See the ["Getting Started" guide for more information](https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking).
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like WBANetworking in your projects. See the ["Getting Started" guide for more information](https://github.com/WBANetworking/WBANetworking/wiki/Getting-Started-with-WBANetworking).
 
 #### Podfile
 
 ```ruby
 platform :ios, '7.0'
-pod "AFNetworking", "~> 2.0"
+pod "WBANetworking", "~> 2.0"
 ```
 
 ## Requirements
 
-| AFNetworking Version | Minimum iOS Target  | Minimum OS X Target  |                                   Notes                                   |
+| WBANetworking Version | Minimum iOS Target  | Minimum OS X Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
 |          2.x         |            iOS 6            |           OS X 10.8          | Xcode 5 is required. `NSURLSession` subspec requires iOS 7 or OS X 10.9. |
-|          [1.x](https://github.com/AFNetworking/AFNetworking/tree/1.x)         |            iOS 5            |         Mac OS X 10.7        |                                                                           |
-|        [0.10.x](https://github.com/AFNetworking/AFNetworking/tree/0.10.x)        |            iOS 4            |         Mac OS X 10.6        |                                                                           |
+|          [1.x](https://github.com/WBANetworking/WBANetworking/tree/1.x)         |            iOS 5            |         Mac OS X 10.7        |                                                                           |
+|        [0.10.x](https://github.com/WBANetworking/WBANetworking/tree/0.10.x)        |            iOS 4            |         Mac OS X 10.6        |                                                                           |
 
 (OS X projects must support [64-bit with modern Cocoa runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html)).
 
@@ -351,7 +351,7 @@ NSArray *operations = [WBAURLConnectionOperation batchOfRequestOperations:@[...]
 
 ## Unit Tests
 
-AFNetworking includes a suite of unit tests within the Tests subdirectory. In order to run the unit tests, you must install the testing dependencies via [CocoaPods](http://cocoapods.org/):
+WBANetworking includes a suite of unit tests within the Tests subdirectory. In order to run the unit tests, you must install the testing dependencies via [CocoaPods](http://cocoapods.org/):
 
     $ cd Tests
     $ pod install
@@ -368,15 +368,15 @@ Once `xcpretty` is installed, you can execute the suite via `rake test`.
 
 ## Credits
 
-AFNetworking was originally created by [Scott Raymond](https://github.com/sco/) and [Mattt Thompson](https://github.com/mattt/) in the development of [Gowalla for iPhone](http://en.wikipedia.org/wiki/Gowalla).
+WBANetworking was originally created by [Scott Raymond](https://github.com/sco/) and [Mattt Thompson](https://github.com/mattt/) in the development of [Gowalla for iPhone](http://en.wikipedia.org/wiki/Gowalla).
 
-AFNetworking's logo was designed by [Alan Defibaugh](http://www.alandefibaugh.com/).
+WBANetworking's logo was designed by [Alan Defibaugh](http://www.alandefibaugh.com/).
 
-And most of all, thanks to AFNetworking's [growing list of contributors](https://github.com/AFNetworking/AFNetworking/contributors).
+And most of all, thanks to WBANetworking's [growing list of contributors](https://github.com/WBANetworking/WBANetworking/contributors).
 
 ## Contact
 
-Follow AFNetworking on Twitter ([@AFNetworking](https://twitter.com/AFNetworking))
+Follow WBANetworking on Twitter ([@WBANetworking](https://twitter.com/WBANetworking))
 
 ### Maintainers
 
@@ -384,4 +384,4 @@ Follow AFNetworking on Twitter ([@AFNetworking](https://twitter.com/AFNetworking
 
 ## License
 
-AFNetworking is available under the MIT license. See the LICENSE file for more info.
+WBANetworking is available under the MIT license. See the LICENSE file for more info.

@@ -1,6 +1,6 @@
-// UIKit+AFNetworking.h
+// UIKit+WBANetworking.h
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com/)
+// Copyright (c) 2013 WBANetworking (http://WBANetworking.com/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,17 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef _UIKIT_AFNETWORKING_
-    #define _UIKIT_AFNETWORKING_
+#ifndef _UIKIT_WBANetworking_
+    #define _UIKIT_WBANetworking_
 
     #import "WBANetworkActivityIndicatorManager.h"
 
-    #import "UIActivityIndicatorView+AFNetworking.h"
-    #import "UIAlertView+AFNetworking.h"
-    #import "UIButton+AFNetworking.h"
-    #import "UIImageView+AFNetworking.h"
-    #import "UIKit+AFNetworking.h"
-    #import "UIProgressView+AFNetworking.h"
-    #import "UIRefreshControl+AFNetworking.h"
-    #import "UIWebView+AFNetworking.h"
-#endif /* _UIKIT_AFNETWORKING_ */
+    #import "UIActivityIndicatorView+WBANetworking.h"
+    #import "UIAlertView+WBANetworking.h"
+    #import "UIButton+WBANetworking.h"
+    #import "UIImageView+WBANetworking.h"
+    #import "UIKit+WBANetworking.h"
+    #import "UIProgressView+WBANetworking.h"
+    #import "UIRefreshControl+WBANetworking.h"
+    #import "UIWebView+WBANetworking.h"
+#endif /* _UIKIT_WBANetworking_ */

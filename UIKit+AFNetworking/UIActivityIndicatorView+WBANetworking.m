@@ -1,6 +1,6 @@
-// UIActivityIndicatorView+AFNetworking.m
+// UIActivityIndicatorView+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIActivityIndicatorView+AFNetworking.h"
+#import "UIActivityIndicatorView+WBANetworking.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
@@ -30,15 +30,15 @@
 #import "WBAURLSessionManager.h"
 #endif
 
-@implementation UIActivityIndicatorView (AFNetworking)
+@implementation UIActivityIndicatorView (WBANetworking)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 - (void)setAnimatingWithStateOfTask:(NSURLSessionTask *)task {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidResumeNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidSuspendNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidCompleteNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidResumeNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidSuspendNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidCompleteNotification object:nil];
 
     if (task) {
         if (task.state != NSURLSessionTaskStateCompleted) {
@@ -48,9 +48,9 @@
                 [self stopAnimating];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:AFNetworkingTaskDidResumeNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:AFNetworkingTaskDidCompleteNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:AFNetworkingTaskDidSuspendNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:WBANetworkingTaskDidResumeNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingTaskDidCompleteNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingTaskDidSuspendNotification object:task];
         }
     }
 }
@@ -61,8 +61,8 @@
 - (void)setAnimatingWithStateOfOperation:(WBAURLConnectionOperation *)operation {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-    [notificationCenter removeObserver:self name:AFNetworkingOperationDidStartNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingOperationDidFinishNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingOperationDidStartNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingOperationDidFinishNotification object:nil];
 
     if (operation) {
         if (![operation isFinished]) {
@@ -72,8 +72,8 @@
                 [self stopAnimating];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:AFNetworkingOperationDidStartNotification object:operation];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:AFNetworkingOperationDidFinishNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:WBANetworkingOperationDidStartNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingOperationDidFinishNotification object:operation];
         }
     }
 }

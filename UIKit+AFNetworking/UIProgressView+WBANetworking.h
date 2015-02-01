@@ -1,6 +1,6 @@
-// UIProgressView+AFNetworking.h
+// UIProgressView+WBANetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@
 /**
  This category adds methods to the UIKit framework's `UIProgressView` class. The methods in this category provide support for binding the progress to the upload and download progress of a session task or request operation.
  */
-@interface UIProgressView (AFNetworking)
+@interface UIProgressView (WBANetworking)
 
 ///------------------------------------
 /// @name Setting Session Task Progress

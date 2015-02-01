@@ -1,6 +1,6 @@
-// AFNetworking.h
+// WBANetworking.h
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com/)
+// Copyright (c) 2013 WBANetworking (http://WBANetworking.com/)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
 #import <Foundation/Foundation.h>
 #import <Availability.h>
 
-#ifndef _AFNETWORKING_
-    #define _AFNETWORKING_
+#ifndef _WBANetworking_
+    #define _WBANetworking_
 
     #import "WBAURLRequestSerialization.h"
     #import "WBAURLResponseSerialization.h"
@@ -41,4 +41,4 @@
     #import "WBAHTTPSessionManager.h"
 #endif
 
-#endif /* _AFNETWORKING_ */
+#endif /* _WBANetworking_ */

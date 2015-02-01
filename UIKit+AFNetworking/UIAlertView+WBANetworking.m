@@ -1,6 +1,6 @@
-// UIAlertView+AFNetworking.m
+// UIAlertView+WBANetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIAlertView+AFNetworking.h"
+#import "UIAlertView+WBANetworking.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
@@ -40,21 +40,21 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
             *message = error.localizedFailureReason;
         }
     } else if (error.localizedDescription) {
-        *title = NSLocalizedStringFromTable(@"Error", @"AFNetworking", @"Fallback Error Description");
+        *title = NSLocalizedStringFromTable(@"Error", @"WBANetworking", @"Fallback Error Description");
         *message = error.localizedDescription;
     } else {
-        *title = NSLocalizedStringFromTable(@"Error", @"AFNetworking", @"Fallback Error Description");
-        *message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ Error: %ld", @"AFNetworking", @"Fallback Error Failure Reason Format"), error.domain, (long)error.code];
+        *title = NSLocalizedStringFromTable(@"Error", @"WBANetworking", @"Fallback Error Description");
+        *message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ Error: %ld", @"WBANetworking", @"Fallback Error Failure Reason Format"), error.domain, (long)error.code];
     }
 }
 
-@implementation UIAlertView (AFNetworking)
+@implementation UIAlertView (WBANetworking)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 + (void)showAlertViewForTaskWithErrorOnCompletion:(NSURLSessionTask *)task
                                          delegate:(id)delegate
 {
-    [self showAlertViewForTaskWithErrorOnCompletion:task delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"AFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
+    [self showAlertViewForTaskWithErrorOnCompletion:task delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"WBANetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
 }
 
 + (void)showAlertViewForTaskWithErrorOnCompletion:(NSURLSessionTask *)task
@@ -69,9 +69,9 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
         [alertView addButtonWithTitle:otherTitle];
     }
     va_end(otherTitleList);
-    __block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingTaskDidCompleteNotification object:task queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+    __block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:WBANetworkingTaskDidCompleteNotification object:task queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
 
-        NSError *error = notification.userInfo[AFNetworkingTaskDidCompleteErrorKey];
+        NSError *error = notification.userInfo[WBANetworkingTaskDidCompleteErrorKey];
         if (error) {
             NSString *title, *message;
             AFGetAlertViewTitleAndMessageFromError(error, &title, &message);
@@ -81,7 +81,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
             [alertView show];
         }
 
-        [[NSNotificationCenter defaultCenter] removeObserver:observer name:AFNetworkingTaskDidCompleteNotification object:notification.object];
+        [[NSNotificationCenter defaultCenter] removeObserver:observer name:WBANetworkingTaskDidCompleteNotification object:notification.object];
     }];
 }
 #endif
@@ -91,7 +91,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
 + (void)showAlertViewForRequestOperationWithErrorOnCompletion:(WBAURLConnectionOperation *)operation
                                                      delegate:(id)delegate
 {
-    [self showAlertViewForRequestOperationWithErrorOnCompletion:operation delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"AFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
+    [self showAlertViewForRequestOperationWithErrorOnCompletion:operation delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"WBANetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
 }
 
 + (void)showAlertViewForRequestOperationWithErrorOnCompletion:(WBAURLConnectionOperation *)operation
@@ -106,7 +106,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
         [alertView addButtonWithTitle:otherTitle];
     }
     va_end(otherTitleList);
-    __block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidFinishNotification object:operation queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+    __block id observer = [[NSNotificationCenter defaultCenter] addObserverForName:WBANetworkingOperationDidFinishNotification object:operation queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
 
         if (notification.object && [notification.object isKindOfClass:[WBAURLConnectionOperation class]]) {
             NSError *error = [(WBAURLConnectionOperation *)notification.object error];
@@ -120,7 +120,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
             }
         }
 
-        [[NSNotificationCenter defaultCenter] removeObserver:observer name:AFNetworkingOperationDidFinishNotification object:notification.object];
+        [[NSNotificationCenter defaultCenter] removeObserver:observer name:WBANetworkingOperationDidFinishNotification object:notification.object];
     }];
 }
 

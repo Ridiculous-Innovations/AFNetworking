@@ -1,6 +1,6 @@
-// UIRefreshControl+AFNetworking.m
+// UIRefreshControl+WBANetworking.m
 //
-// Copyright (c) 2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2014 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIRefreshControl+AFNetworking.h"
+#import "UIRefreshControl+WBANetworking.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
@@ -30,23 +30,23 @@
 #import "WBAURLSessionManager.h"
 #endif
 
-@implementation UIRefreshControl (AFNetworking)
+@implementation UIRefreshControl (WBANetworking)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 - (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidResumeNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidSuspendNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingTaskDidCompleteNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidResumeNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidSuspendNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingTaskDidCompleteNotification object:nil];
 
     if (task) {
         if (task.state == NSURLSessionTaskStateRunning) {
             [self beginRefreshing];
 
-            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:AFNetworkingTaskDidResumeNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingTaskDidCompleteNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingTaskDidSuspendNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:WBANetworkingTaskDidResumeNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingTaskDidCompleteNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingTaskDidSuspendNotification object:task];
         } else {
             [self endRefreshing];
         }
@@ -57,8 +57,8 @@
 - (void)setRefreshingWithStateOfOperation:(WBAURLConnectionOperation *)operation {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
-    [notificationCenter removeObserver:self name:AFNetworkingOperationDidStartNotification object:nil];
-    [notificationCenter removeObserver:self name:AFNetworkingOperationDidFinishNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingOperationDidStartNotification object:nil];
+    [notificationCenter removeObserver:self name:WBANetworkingOperationDidFinishNotification object:nil];
 
     if (operation) {
         if (![operation isFinished]) {
@@ -68,8 +68,8 @@
                 [self endRefreshing];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:AFNetworkingOperationDidStartNotification object:operation];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:AFNetworkingOperationDidFinishNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:WBANetworkingOperationDidStartNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingOperationDidFinishNotification object:operation];
         }
     }
 }

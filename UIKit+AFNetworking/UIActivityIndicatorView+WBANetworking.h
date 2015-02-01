@@ -1,6 +1,6 @@
-// UIRefreshControl+AFNetworking.m
+// UIActivityIndicatorView+WBANetworking.h
 //
-// Copyright (c) 2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,33 +31,33 @@
 @class WBAURLConnectionOperation;
 
 /**
- This category adds methods to the UIKit framework's `UIRefreshControl` class. The methods in this category provide support for automatically begining and ending refreshing depending on the loading state of a request operation or session task.
+ This category adds methods to the UIKit framework's `UIActivityIndicatorView` class. The methods in this category provide support for automatically starting and stopping animation depending on the loading state of a request operation or session task.
  */
-@interface UIRefreshControl (AFNetworking)
+@interface UIActivityIndicatorView (WBANetworking)
 
-///-----------------------------------
-/// @name Refreshing for Session Tasks
-///-----------------------------------
+///----------------------------------
+/// @name Animating for Session Tasks
+///----------------------------------
 
 /**
- Binds the refreshing state to the state of the specified task.
- 
+ Binds the animating state to the state of the specified task.
+
  @param task The task. If `nil`, automatic updating from any previously specified operation will be disabled.
  */
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task;
+- (void)setAnimatingWithStateOfTask:(NSURLSessionTask *)task;
 #endif
 
-///----------------------------------------
-/// @name Refreshing for Request Operations
-///----------------------------------------
+///---------------------------------------
+/// @name Animating for Request Operations
+///---------------------------------------
 
 /**
- Binds the refreshing state to the execution state of the specified operation.
+ Binds the animating state to the execution state of the specified operation.
 
  @param operation The operation. If `nil`, automatic updating from any previously specified operation will be disabled.
  */
-- (void)setRefreshingWithStateOfOperation:(WBAURLConnectionOperation *)operation;
+- (void)setAnimatingWithStateOfOperation:(WBAURLConnectionOperation *)operation;
 
 @end
 

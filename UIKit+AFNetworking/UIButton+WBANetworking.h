@@ -1,6 +1,6 @@
-// UIButton+AFNetworking.h
+// UIButton+WBANetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@
 
  @warning Compound values for control `state` (such as `UIControlStateHighlighted | UIControlStateDisabled`) are unsupported.
  */
-@interface UIButton (AFNetworking)
+@interface UIButton (WBANetworking)
 
 ///----------------------------
 /// @name Accessing Image Cache
@@ -60,7 +60,7 @@
 /**
  The response serializer used to create an image representation from the server response and response data. By default, this is an instance of `AFImageResponseSerializer`.
 
- @discussion Subclasses of `AFImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/AFNetworking/AFCoreImageSerializer
+ @discussion Subclasses of `AFImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/WBANetworking/AFCoreImageSerializer
  */
 @property (nonatomic, strong) id <WBAURLResponseSerialization> imageResponseSerializer;
 
