@@ -26,21 +26,21 @@
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
-#import "AFHTTPRequestOperation.h"
+#import "WBAHTTPRequestOperation.h"
 #import "AFURLResponseSerialization.h"
 #import "AFURLRequestSerialization.h"
 
 @interface UIWebView (_AFNetworking)
-@property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) AFHTTPRequestOperation *af_HTTPRequestOperation;
+@property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) WBAHTTPRequestOperation *af_HTTPRequestOperation;
 @end
 
 @implementation UIWebView (_AFNetworking)
 
-- (AFHTTPRequestOperation *)af_HTTPRequestOperation {
-    return (AFHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
+- (WBAHTTPRequestOperation *)af_HTTPRequestOperation {
+    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
 }
 
-- (void)af_setHTTPRequestOperation:(AFHTTPRequestOperation *)operation {
+- (void)af_setHTTPRequestOperation:(WBAHTTPRequestOperation *)operation {
     objc_setAssociatedObject(self, @selector(af_HTTPRequestOperation), operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -124,12 +124,12 @@
 
     request = [self.requestSerializer requestBySerializingRequest:request withParameters:nil error:nil];
 
-    self.af_HTTPRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    self.af_HTTPRequestOperation = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
     self.af_HTTPRequestOperation.responseSerializer = self.responseSerializer;
 
     __weak __typeof(self)weakSelf = self;
     [self.af_HTTPRequestOperation setDownloadProgressBlock:progress];
-    [self.af_HTTPRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id __unused responseObject) {
+    [self.af_HTTPRequestOperation setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id __unused responseObject) {
         NSData *data = success ? success(operation.response, operation.responseData) : operation.responseData;
 
 #pragma clang diagnostic push
@@ -137,7 +137,7 @@
         __strong __typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf loadData:data MIMEType:(MIMEType ?: [operation.response MIMEType]) textEncodingName:(textEncodingName ?: [operation.response textEncodingName]) baseURL:[operation.response URL]];
 #pragma clang diagnostic pop
-    } failure:^(AFHTTPRequestOperation * __unused operation, NSError *error) {
+    } failure:^(WBAHTTPRequestOperation * __unused operation, NSError *error) {
         if (failure) {
             failure(error);
         }

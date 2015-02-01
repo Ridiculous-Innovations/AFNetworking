@@ -54,7 +54,7 @@ pod "AFNetworking", "~> 2.0"
 
 - `AFURLConnectionOperation`
 - `AFHTTPRequestOperation`
-- `AFHTTPRequestOperationManager`
+- `WBAHTTPRequestOperationManager`
 
 ### NSURLSession _(iOS 7 / Mac OS X 10.9)_
 
@@ -85,15 +85,15 @@ pod "AFNetworking", "~> 2.0"
 
 ### HTTP Request Operation Manager
 
-`AFHTTPRequestOperationManager` encapsulates the common patterns of communicating with a web application over HTTP, including request creation, response serialization, network reachability monitoring, and security, as well as request operation management.
+`WBAHTTPRequestOperationManager` encapsulates the common patterns of communicating with a web application over HTTP, including request creation, response serialization, network reachability monitoring, and security, as well as request operation management.
 
 #### `GET` Request
 
 ```objective-c
-AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-[manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+WBAHTTPRequestOperationManager *manager = [WBAHTTPRequestOperationManager manager];
+[manager GET:@"http://example.com/resources.json" parameters:nil success:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+} failure:^(WBAHTTPRequestOperation *operation, NSError *error) {
     NSLog(@"Error: %@", error);
 }];
 ```
@@ -101,11 +101,11 @@ AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager]
 #### `POST` URL-Form-Encoded Request
 
 ```objective-c
-AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+WBAHTTPRequestOperationManager *manager = [WBAHTTPRequestOperationManager manager];
 NSDictionary *parameters = @{@"foo": @"bar"};
-[manager POST:@"http://example.com/resources.json" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+[manager POST:@"http://example.com/resources.json" parameters:parameters success:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+} failure:^(WBAHTTPRequestOperation *operation, NSError *error) {
     NSLog(@"Error: %@", error);
 }];
 ```
@@ -113,14 +113,14 @@ NSDictionary *parameters = @{@"foo": @"bar"};
 #### `POST` Multi-Part Request
 
 ```objective-c
-AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+WBAHTTPRequestOperationManager *manager = [WBAHTTPRequestOperationManager manager];
 NSDictionary *parameters = @{@"foo": @"bar"};
 NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
 [manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     [formData appendPartWithFileURL:filePath name:@"image" error:nil];
-} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+} success:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"Success: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+} failure:^(WBAHTTPRequestOperation *operation, NSError *error) {
     NSLog(@"Error: %@", error);
 }];
 ```
@@ -270,7 +270,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 
 ```objective-c
 NSURL *baseURL = [NSURL URLWithString:@"http://example.com/"];
-AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+WBAHTTPRequestOperationManager *manager = [[WBAHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
 
 NSOperationQueue *operationQueue = manager.operationQueue;
 [manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -300,7 +300,7 @@ Adding pinned SSL certificates to your app helps prevent man-in-the-middle attac
 #### Allowing Invalid SSL Certificates
 
 ```objective-c
-AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+WBAHTTPRequestOperationManager *manager = [WBAHTTPRequestOperationManager manager];
 manager.securityPolicy.allowInvalidCertificates = YES; // not recommended for production
 ```
 
@@ -310,18 +310,18 @@ manager.securityPolicy.allowInvalidCertificates = YES; // not recommended for pr
 
 `AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
 
-Although `AFHTTPRequestOperationManager` is usually the best way to go about making requests, `AFHTTPRequestOperation` can be used by itself.
+Although `WBAHTTPRequestOperationManager` is usually the best way to go about making requests, `AFHTTPRequestOperation` can be used by itself.
 
 #### `GET` with `AFHTTPRequestOperation`
 
 ```objective-c
 NSURL *URL = [NSURL URLWithString:@"http://example.com/resources/123.json"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+WBAHTTPRequestOperation *op = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
 op.responseSerializer = [AFJSONResponseSerializer serializer];
-[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+[op setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"JSON: %@", responseObject);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+} failure:^(WBAHTTPRequestOperation *operation, NSError *error) {
     NSLog(@"Error: %@", error);
 }];
 [[NSOperationQueue mainQueue] addOperation:op];
@@ -336,7 +336,7 @@ for (NSURL *fileURL in filesToUpload) {
         [formData appendPartWithFileURL:fileURL name:@"images[]" error:nil];
     }];
 
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    WBAHTTPRequestOperation *operation = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
 
     [mutableOperations addObject:operation];
 }
