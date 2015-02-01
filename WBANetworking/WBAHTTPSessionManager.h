@@ -30,10 +30,10 @@
 #import <CoreServices/CoreServices.h>
 #endif
 
-#import "AFURLSessionManager.h"
+#import "WBAURLSessionManager.h"
 
 /**
- `WBAHTTPSessionManager` is a subclass of `AFURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths.
+ `WBAHTTPSessionManager` is a subclass of `WBAURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths.
 
  ## Subclassing Notes
 
@@ -72,7 +72,7 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-@interface WBAHTTPSessionManager : AFURLSessionManager <NSSecureCoding, NSCopying>
+@interface WBAHTTPSessionManager : WBAURLSessionManager <NSSecureCoding, NSCopying>
 
 /**
  The URL used to monitor reachability, and construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.

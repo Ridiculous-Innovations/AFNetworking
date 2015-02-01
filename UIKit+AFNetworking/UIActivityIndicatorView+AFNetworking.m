@@ -27,7 +27,7 @@
 #import "WBAHTTPRequestOperation.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-#import "AFURLSessionManager.h"
+#import "WBAURLSessionManager.h"
 #endif
 
 @implementation UIActivityIndicatorView (AFNetworking)

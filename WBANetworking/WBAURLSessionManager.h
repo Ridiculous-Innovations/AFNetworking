@@ -1,4 +1,4 @@
-// AFURLSessionManager.h
+// WBAURLSessionManager.h
 //
 // Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
@@ -28,15 +28,15 @@
 #import "WBANetworkReachabilityManager.h"
 
 /**
- `AFURLSessionManager` creates and manages an `NSURLSession` object based on a specified `NSURLSessionConfiguration` object, which conforms to `<NSURLSessionTaskDelegate>`, `<NSURLSessionDataDelegate>`, `<NSURLSessionDownloadDelegate>`, and `<NSURLSessionDelegate>`.
+ `WBAURLSessionManager` creates and manages an `NSURLSession` object based on a specified `NSURLSessionConfiguration` object, which conforms to `<NSURLSessionTaskDelegate>`, `<NSURLSessionDataDelegate>`, `<NSURLSessionDownloadDelegate>`, and `<NSURLSessionDelegate>`.
 
  ## Subclassing Notes
 
- This is the base class for `WBAHTTPSessionManager`, which adds functionality specific to making HTTP requests. If you are looking to extend `AFURLSessionManager` specifically for HTTP, consider subclassing `WBAHTTPSessionManager` instead.
+ This is the base class for `WBAHTTPSessionManager`, which adds functionality specific to making HTTP requests. If you are looking to extend `WBAURLSessionManager` specifically for HTTP, consider subclassing `WBAHTTPSessionManager` instead.
 
  ## NSURLSession & NSURLSessionTask Delegate Methods
 
- `AFURLSessionManager` implements the following delegate methods:
+ `WBAURLSessionManager` implements the following delegate methods:
 
  ### `NSURLSessionDelegate`
 
@@ -84,7 +84,7 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-@interface AFURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSSecureCoding, NSCopying>
+@interface WBAURLSessionManager : NSObject <NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NSSecureCoding, NSCopying>
 
 /**
  The managed session.
@@ -108,7 +108,7 @@
 ///-------------------------------
 
 /**
- The security policy used by created request operations to evaluate server trust for secure connections. `AFURLSessionManager` uses the `defaultPolicy` unless otherwise specified.
+ The security policy used by created request operations to evaluate server trust for secure connections. `WBAURLSessionManager` uses the `defaultPolicy` unless otherwise specified.
  */
 @property (nonatomic, strong) WBASecurityPolicy *securityPolicy;
 
@@ -117,7 +117,7 @@
 ///--------------------------------------
 
 /**
- The network reachability manager. `AFURLSessionManager` uses the `sharedManager` by default.
+ The network reachability manager. `WBAURLSessionManager` uses the `sharedManager` by default.
  */
 @property (readwrite, nonatomic, strong) WBANetworkReachabilityManager *reachabilityManager;
 

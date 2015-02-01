@@ -58,7 +58,7 @@ pod "AFNetworking", "~> 2.0"
 
 ### NSURLSession _(iOS 7 / Mac OS X 10.9)_
 
-- `AFURLSessionManager`
+- `WBAURLSessionManager`
 - `WBAHTTPSessionManager`
 
 ### Serialization
@@ -127,15 +127,15 @@ NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
 
 ---
 
-### AFURLSessionManager
+### WBAURLSessionManager
 
-`AFURLSessionManager` creates and manages an `NSURLSession` object based on a specified `NSURLSessionConfiguration` object, which conforms to `<NSURLSessionTaskDelegate>`, `<NSURLSessionDataDelegate>`, `<NSURLSessionDownloadDelegate>`, and `<NSURLSessionDelegate>`.
+`WBAURLSessionManager` creates and manages an `NSURLSession` object based on a specified `NSURLSessionConfiguration` object, which conforms to `<NSURLSessionTaskDelegate>`, `<NSURLSessionDataDelegate>`, `<NSURLSessionDownloadDelegate>`, and `<NSURLSessionDelegate>`.
 
 #### Creating a Download Task
 
 ```objective-c
 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+WBAURLSessionManager *manager = [[WBAURLSessionManager alloc] initWithSessionConfiguration:configuration];
 
 NSURL *URL = [NSURL URLWithString:@"http://example.com/download.zip"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -153,7 +153,7 @@ NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:reques
 
 ```objective-c
 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+WBAURLSessionManager *manager = [[WBAURLSessionManager alloc] initWithSessionConfiguration:configuration];
 
 NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];
@@ -176,7 +176,7 @@ NSMutableURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartF
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
     } error:nil];
 
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+WBAURLSessionManager *manager = [[WBAURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 NSProgress *progress = nil;
 
 NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
@@ -194,7 +194,7 @@ NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:requ
 
 ```objective-c
 NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+WBAURLSessionManager *manager = [[WBAURLSessionManager alloc] initWithSessionConfiguration:configuration];
 
 NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];

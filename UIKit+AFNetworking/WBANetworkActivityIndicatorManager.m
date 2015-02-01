@@ -1,4 +1,4 @@
-// AFNetworkActivityIndicatorManager.m
+// WBANetworkActivityIndicatorManager.m
 //
 // Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFNetworkActivityIndicatorManager.h"
+#import "WBANetworkActivityIndicatorManager.h"
 
 #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED)
 
 #import "WBAHTTPRequestOperation.h"
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-#import "AFURLSessionManager.h"
+#import "WBAURLSessionManager.h"
 #endif
 
 static NSTimeInterval const kAFNetworkActivityIndicatorInvisibilityDelay = 0.17;
@@ -46,7 +46,7 @@ static NSURLRequest * AFNetworkRequestFromNotification(NSNotification *notificat
     return nil;
 }
 
-@interface AFNetworkActivityIndicatorManager ()
+@interface WBANetworkActivityIndicatorManager ()
 @property (readwrite, nonatomic, assign) NSInteger activityCount;
 @property (readwrite, nonatomic, strong) NSTimer *activityIndicatorVisibilityTimer;
 @property (readonly, nonatomic, getter = isNetworkActivityIndicatorVisible) BOOL networkActivityIndicatorVisible;
@@ -55,11 +55,11 @@ static NSURLRequest * AFNetworkRequestFromNotification(NSNotification *notificat
 - (void)updateNetworkActivityIndicatorVisibilityDelayed;
 @end
 
-@implementation AFNetworkActivityIndicatorManager
+@implementation WBANetworkActivityIndicatorManager
 @dynamic networkActivityIndicatorVisible;
 
 + (instancetype)sharedManager {
-    static AFNetworkActivityIndicatorManager *_sharedManager = nil;
+    static WBANetworkActivityIndicatorManager *_sharedManager = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
         _sharedManager = [[self alloc] init];

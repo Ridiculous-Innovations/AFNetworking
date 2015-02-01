@@ -29,7 +29,7 @@
 #import "WBAURLConnectionOperation.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-#import "AFURLSessionManager.h"
+#import "WBAURLSessionManager.h"
 #endif
 
 static void * AFTaskCountOfBytesSentContext = &AFTaskCountOfBytesSentContext;
