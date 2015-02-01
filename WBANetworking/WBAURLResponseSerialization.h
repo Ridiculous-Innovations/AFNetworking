@@ -1,4 +1,4 @@
-// AFURLResponseSerialization.h
+// WBAURLResponseSerialization.h
 //
 // Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
@@ -24,11 +24,11 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 /**
- The `AFURLResponseSerialization` protocol is adopted by an object that decodes data into a more useful object representation, according to details in the server response. Response serializers may additionally perform validation on the incoming response and data.
+ The `WBAURLResponseSerialization` protocol is adopted by an object that decodes data into a more useful object representation, according to details in the server response. Response serializers may additionally perform validation on the incoming response and data.
 
  For example, a JSON response serializer may check for an acceptable status code (`2XX` range) and content type (`application/json`), decoding a valid JSON response into an object.
  */
-@protocol AFURLResponseSerialization <NSObject, NSSecureCoding, NSCopying>
+@protocol WBAURLResponseSerialization <NSObject, NSSecureCoding, NSCopying>
 
 /**
  The response object decoded from the data associated with a specified response.
@@ -48,11 +48,11 @@
 #pragma mark -
 
 /**
- `AFHTTPResponseSerializer` conforms to the `AFURLRequestSerialization` & `AFURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
+ `AFHTTPResponseSerializer` conforms to the `WBAURLRequestSerialization` & `WBAURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
 
  Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPResponseSerializer` in order to ensure consistent default behavior.
  */
-@interface AFHTTPResponseSerializer : NSObject <AFURLResponseSerialization>
+@interface AFHTTPResponseSerializer : NSObject <WBAURLResponseSerialization>
 
 - (instancetype) init;
 
@@ -278,14 +278,14 @@
 
  The following error domain is predefined.
 
- - `NSString * const AFURLResponseSerializationErrorDomain`
+ - `NSString * const WBAURLResponseSerializationErrorDomain`
 
  ### Constants
 
- `AFURLResponseSerializationErrorDomain`
- AFURLResponseSerializer errors. Error codes for `AFURLResponseSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ `WBAURLResponseSerializationErrorDomain`
+ AFURLResponseSerializer errors. Error codes for `WBAURLResponseSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
-extern NSString * const AFURLResponseSerializationErrorDomain;
+extern NSString * const WBAURLResponseSerializationErrorDomain;
 
 /**
  ## User info dictionary keys
@@ -298,10 +298,10 @@ extern NSString * const AFURLResponseSerializationErrorDomain;
  ### Constants
 
  `AFNetworkingOperationFailingURLResponseErrorKey`
- The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+ The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `WBAURLResponseSerializationErrorDomain`.
 
  `AFNetworkingOperationFailingURLResponseDataErrorKey`
- The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `AFURLResponseSerializationErrorDomain`.
+ The corresponding value is an `NSData` containing the original data of the operation associated with an error. This key is only present in the `WBAURLResponseSerializationErrorDomain`.
  */
 extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
 

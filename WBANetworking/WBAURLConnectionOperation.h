@@ -23,8 +23,8 @@
 #import <Foundation/Foundation.h>
 
 #import <Availability.h>
-#import "AFURLRequestSerialization.h"
-#import "AFURLResponseSerialization.h"
+#import "WBAURLRequestSerialization.h"
+#import "WBAURLResponseSerialization.h"
 #import "WBASecurityPolicy.h"
 
 /**

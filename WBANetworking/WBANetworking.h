@@ -26,8 +26,8 @@
 #ifndef _AFNETWORKING_
     #define _AFNETWORKING_
 
-    #import "AFURLRequestSerialization.h"
-    #import "AFURLResponseSerialization.h"
+    #import "WBAURLRequestSerialization.h"
+    #import "WBAURLResponseSerialization.h"
     #import "WBASecurityPolicy.h"
     #import "WBANetworkReachabilityManager.h"
 

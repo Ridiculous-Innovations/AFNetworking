@@ -22,8 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AFURLResponseSerialization.h"
-#import "AFURLRequestSerialization.h"
+#import "WBAURLResponseSerialization.h"
+#import "WBAURLRequestSerialization.h"
 #import "WBASecurityPolicy.h"
 #import "WBANetworkReachabilityManager.h"
 
@@ -101,7 +101,7 @@
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) id <AFURLResponseSerialization> responseSerializer;
+@property (nonatomic, strong) id <WBAURLResponseSerialization> responseSerializer;
 
 ///-------------------------------
 /// @name Managing Security Policy

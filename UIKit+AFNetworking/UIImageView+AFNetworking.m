@@ -88,8 +88,8 @@
 
 #pragma mark -
 
-- (id <AFURLResponseSerialization>)imageResponseSerializer {
-    static id <AFURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
+- (id <WBAURLResponseSerialization>)imageResponseSerializer {
+    static id <WBAURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
@@ -101,7 +101,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setImageResponseSerializer:(id <AFURLResponseSerialization>)serializer {
+- (void)setImageResponseSerializer:(id <WBAURLResponseSerialization>)serializer {
     objc_setAssociatedObject(self, @selector(imageResponseSerializer), serializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

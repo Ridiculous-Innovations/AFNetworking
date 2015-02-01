@@ -63,11 +63,11 @@ pod "AFNetworking", "~> 2.0"
 
 ### Serialization
 
-* `<AFURLRequestSerialization>`
-  - `AFHTTPRequestSerializer`
+* `<WBAURLRequestSerialization>`
+  - `WBAHTTPRequestSerializer`
   - `AFJSONRequestSerializer`
   - `AFPropertyListRequestSerializer`
-* `<AFURLResponseSerialization>`
+* `<WBAURLResponseSerialization>`
   - `AFHTTPResponseSerializer`
   - `AFJSONResponseSerializer`
   - `AFXMLParserResponseSerializer`
@@ -172,7 +172,7 @@ NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithRequest:request from
 #### Creating an Upload Task for a Multi-Part Request, with Progress
 
 ```objective-c
-NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+NSMutableURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
     } error:nil];
 
@@ -223,7 +223,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### Query String Parameter Encoding
 
 ```objective-c
-[[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:URLString parameters:parameters error:nil];
+[[WBAHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:URLString parameters:parameters error:nil];
 ```
 
     GET http://example.com?foo=bar&baz[]=1&baz[]=2&baz[]=3
@@ -231,7 +231,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### URL Form Parameter Encoding
 
 ```objective-c
-[[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+[[WBAHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
 ```
 
     POST http://example.com/
@@ -332,7 +332,7 @@ op.responseSerializer = [AFJSONResponseSerializer serializer];
 ```objective-c
 NSMutableArray *mutableOperations = [NSMutableArray array];
 for (NSURL *fileURL in filesToUpload) {
-    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:fileURL name:@"images[]" error:nil];
     }];
 

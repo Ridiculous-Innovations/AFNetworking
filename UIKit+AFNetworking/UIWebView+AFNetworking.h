@@ -28,8 +28,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFHTTPRequestSerializer, AFHTTPResponseSerializer;
-@protocol AFURLRequestSerialization, AFURLResponseSerialization;
+@class WBAHTTPRequestSerializer, AFHTTPResponseSerializer;
+@protocol WBAURLRequestSerialization, WBAURLResponseSerialization;
 
 /**
  This category adds methods to the UIKit framework's `UIWebView` class. The methods in this category provide increased control over the request cycle, including progress monitoring and success / failure handling.
@@ -39,14 +39,14 @@
 @interface UIWebView (AFNetworking)
 
 /**
- The request serializer used to serialize requests made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPRequestSerializer`.
+ The request serializer used to serialize requests made with the `-loadRequest:...` category methods. By default, this is an instance of `WBAHTTPRequestSerializer`.
  */
-@property (nonatomic, strong) AFHTTPRequestSerializer <AFURLRequestSerialization> * requestSerializer;
+@property (nonatomic, strong) WBAHTTPRequestSerializer <WBAURLRequestSerialization> * requestSerializer;
 
 /**
  The response serializer used to serialize responses made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPResponseSerializer`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) AFHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
 
 /**
  Asynchronously loads the specified request.

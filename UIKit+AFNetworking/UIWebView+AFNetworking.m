@@ -27,8 +27,8 @@
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
 #import "WBAHTTPRequestOperation.h"
-#import "AFURLResponseSerialization.h"
-#import "AFURLRequestSerialization.h"
+#import "WBAURLResponseSerialization.h"
+#import "WBAURLRequestSerialization.h"
 
 @interface UIWebView (_AFNetworking)
 @property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) WBAHTTPRequestOperation *af_HTTPRequestOperation;
@@ -50,11 +50,11 @@
 
 @implementation UIWebView (AFNetworking)
 
-- (AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializer {
-    static AFHTTPRequestSerializer <AFURLRequestSerialization> *_af_defaultRequestSerializer = nil;
+- (WBAHTTPRequestSerializer <WBAURLRequestSerialization> *)requestSerializer {
+    static WBAHTTPRequestSerializer <WBAURLRequestSerialization> *_af_defaultRequestSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultRequestSerializer = [AFHTTPRequestSerializer serializer];
+        _af_defaultRequestSerializer = [WBAHTTPRequestSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -63,12 +63,12 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setRequestSerializer:(AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer {
+- (void)setRequestSerializer:(WBAHTTPRequestSerializer<WBAURLRequestSerialization> *)requestSerializer {
     objc_setAssociatedObject(self, @selector(requestSerializer), requestSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializer {
-    static AFHTTPResponseSerializer <AFURLResponseSerialization> *_af_defaultResponseSerializer = nil;
+- (AFHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
+    static AFHTTPResponseSerializer <WBAURLResponseSerialization> *_af_defaultResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _af_defaultResponseSerializer = [AFHTTPResponseSerializer serializer];
@@ -80,7 +80,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer<AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(AFHTTPResponseSerializer<WBAURLResponseSerialization> *)responseSerializer {
     objc_setAssociatedObject(self, @selector(responseSerializer), responseSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

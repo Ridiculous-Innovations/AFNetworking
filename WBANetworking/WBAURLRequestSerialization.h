@@ -1,4 +1,4 @@
-// AFURLRequestSerialization.h
+// WBAURLRequestSerialization.h
 //
 // Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
@@ -26,11 +26,11 @@
 #endif
 
 /**
- The `AFURLRequestSerialization` protocol is adopted by an object that encodes parameters for a specified HTTP requests. Request serializers may encode parameters as query strings, HTTP bodies, setting the appropriate HTTP header fields as necessary.
+ The `WBAURLRequestSerialization` protocol is adopted by an object that encodes parameters for a specified HTTP requests. Request serializers may encode parameters as query strings, HTTP bodies, setting the appropriate HTTP header fields as necessary.
 
  For example, a JSON request serializer may set the HTTP body of the request to a JSON representation, and set the `Content-Type` HTTP header field value to `application/json`.
  */
-@protocol AFURLRequestSerialization <NSObject, NSSecureCoding, NSCopying>
+@protocol WBAURLRequestSerialization <NSObject, NSSecureCoding, NSCopying>
 
 /**
  Returns a request with the specified parameters encoded into a copy of the original request.
@@ -59,11 +59,11 @@ typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
 @protocol AFMultipartFormData;
 
 /**
- `AFHTTPRequestSerializer` conforms to the `AFURLRequestSerialization` & `AFURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
+ `WBAHTTPRequestSerializer` conforms to the `WBAURLRequestSerialization` & `WBAURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
 
- Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPRequestSerializer` in order to ensure consistent default behavior.
+ Any request or response serializer dealing with HTTP is encouraged to subclass `WBAHTTPRequestSerializer` in order to ensure consistent default behavior.
  */
-@interface AFHTTPRequestSerializer : NSObject <AFURLRequestSerialization>
+@interface WBAHTTPRequestSerializer : NSObject <WBAURLRequestSerialization>
 
 /**
  The string encoding used to serialize parameters. `NSUTF8StringEncoding` by default.
@@ -269,7 +269,7 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `AFHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
+ The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `WBAHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
  */
 @protocol AFMultipartFormData
 
@@ -369,9 +369,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- `AFJSONRequestSerializer` is a subclass of `AFHTTPRequestSerializer` that encodes parameters as JSON using `NSJSONSerialization`, setting the `Content-Type` of the encoded request to `application/json`.
+ `AFJSONRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSJSONSerialization`, setting the `Content-Type` of the encoded request to `application/json`.
  */
-@interface AFJSONRequestSerializer : AFHTTPRequestSerializer
+@interface AFJSONRequestSerializer : WBAHTTPRequestSerializer
 
 /**
  Options for writing the request JSON data from Foundation objects. For possible values, see the `NSJSONSerialization` documentation section "NSJSONWritingOptions". `0` by default.
@@ -390,9 +390,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- `AFPropertyListRequestSerializer` is a subclass of `AFHTTPRequestSerializer` that encodes parameters as JSON using `NSPropertyListSerializer`, setting the `Content-Type` of the encoded request to `application/x-plist`.
+ `AFPropertyListRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSPropertyListSerializer`, setting the `Content-Type` of the encoded request to `application/x-plist`.
  */
-@interface AFPropertyListRequestSerializer : AFHTTPRequestSerializer
+@interface AFPropertyListRequestSerializer : WBAHTTPRequestSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".
@@ -428,14 +428,14 @@ forHTTPHeaderField:(NSString *)field;
 
  The following error domain is predefined.
 
- - `NSString * const AFURLRequestSerializationErrorDomain`
+ - `NSString * const WBAURLRequestSerializationErrorDomain`
 
  ### Constants
 
- `AFURLRequestSerializationErrorDomain`
- AFURLRequestSerializer errors. Error codes for `AFURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ `WBAURLRequestSerializationErrorDomain`
+ AFURLRequestSerializer errors. Error codes for `WBAURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
-extern NSString * const AFURLRequestSerializationErrorDomain;
+extern NSString * const WBAURLRequestSerializationErrorDomain;
 
 /**
  ## User info dictionary keys
@@ -447,7 +447,7 @@ extern NSString * const AFURLRequestSerializationErrorDomain;
  ### Constants
 
  `AFNetworkingOperationFailingURLRequestErrorKey`
- The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `AFURLRequestSerializationErrorDomain`.
+ The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `WBAURLRequestSerializationErrorDomain`.
  */
 extern NSString * const AFNetworkingOperationFailingURLRequestErrorKey;
 
