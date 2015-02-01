@@ -67,11 +67,11 @@
     objc_setAssociatedObject(self, @selector(requestSerializer), requestSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (AFHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
-    static AFHTTPResponseSerializer <WBAURLResponseSerialization> *_af_defaultResponseSerializer = nil;
+- (WBAHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
+    static WBAHTTPResponseSerializer <WBAURLResponseSerialization> *_af_defaultResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultResponseSerializer = [AFHTTPResponseSerializer serializer];
+        _af_defaultResponseSerializer = [WBAHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -80,7 +80,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer<WBAURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(WBAHTTPResponseSerializer<WBAURLResponseSerialization> *)responseSerializer {
     objc_setAssociatedObject(self, @selector(responseSerializer), responseSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

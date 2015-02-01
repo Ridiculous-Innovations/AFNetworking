@@ -53,7 +53,7 @@ pod "WBANetworking", "~> 2.0"
 ### NSURLConnection
 
 - `WBAURLConnectionOperation`
-- `AFHTTPRequestOperation`
+- `WBAHTTPRequestOperation`
 - `WBAHTTPRequestOperationManager`
 
 ### NSURLSession _(iOS 7 / Mac OS X 10.9)_
@@ -65,13 +65,13 @@ pod "WBANetworking", "~> 2.0"
 
 * `<WBAURLRequestSerialization>`
   - `WBAHTTPRequestSerializer`
-  - `AFJSONRequestSerializer`
+  - `WBAJSONRequestSerializer`
   - `AFPropertyListRequestSerializer`
 * `<WBAURLResponseSerialization>`
-  - `AFHTTPResponseSerializer`
-  - `AFJSONResponseSerializer`
-  - `AFXMLParserResponseSerializer`
-  - `AFXMLDocumentResponseSerializer` _(Mac OS X)_
+  - `WBAHTTPResponseSerializer`
+  - `WBAJSONResponseSerializer`
+  - `WBAXMLParserResponseSerializer`
+  - `WBAXMLDocumentResponseSerializer` _(Mac OS X)_
   - `AFPropertyListResponseSerializer`
   - `AFImageResponseSerializer`
   - `AFCompoundResponseSerializer`
@@ -242,7 +242,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### JSON Parameter Encoding
 
 ```objective-c
-[[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+[[WBAJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
 ```
 
     POST http://example.com/
@@ -261,7 +261,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 #### Shared Network Reachability
 
 ```objective-c
-[[WBANetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+[[WBANetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(WBANetworkReachabilityStatus status) {
     NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
 }];
 ```
@@ -273,13 +273,13 @@ NSURL *baseURL = [NSURL URLWithString:@"http://example.com/"];
 WBAHTTPRequestOperationManager *manager = [[WBAHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
 
 NSOperationQueue *operationQueue = manager.operationQueue;
-[manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+[manager.reachabilityManager setReachabilityStatusChangeBlock:^(WBANetworkReachabilityStatus status) {
     switch (status) {
-        case AFNetworkReachabilityStatusReachableViaWWAN:
-        case AFNetworkReachabilityStatusReachableViaWiFi:
+        case WBANetworkReachabilityStatusReachableViaWWAN:
+        case WBANetworkReachabilityStatusReachableViaWiFi:
             [operationQueue setSuspended:NO];
             break;
-        case AFNetworkReachabilityStatusNotReachable:
+        case WBANetworkReachabilityStatusNotReachable:
         default:
             [operationQueue setSuspended:YES];
             break;
@@ -306,19 +306,19 @@ manager.securityPolicy.allowInvalidCertificates = YES; // not recommended for pr
 
 ---
 
-### AFHTTPRequestOperation
+### WBAHTTPRequestOperation
 
-`AFHTTPRequestOperation` is a subclass of `WBAURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
+`WBAHTTPRequestOperation` is a subclass of `WBAURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
 
-Although `WBAHTTPRequestOperationManager` is usually the best way to go about making requests, `AFHTTPRequestOperation` can be used by itself.
+Although `WBAHTTPRequestOperationManager` is usually the best way to go about making requests, `WBAHTTPRequestOperation` can be used by itself.
 
-#### `GET` with `AFHTTPRequestOperation`
+#### `GET` with `WBAHTTPRequestOperation`
 
 ```objective-c
 NSURL *URL = [NSURL URLWithString:@"http://example.com/resources/123.json"];
 NSURLRequest *request = [NSURLRequest requestWithURL:URL];
 WBAHTTPRequestOperation *op = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
-op.responseSerializer = [AFJSONResponseSerializer serializer];
+op.responseSerializer = [WBAJSONResponseSerializer serializer];
 [op setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"JSON: %@", responseObject);
 } failure:^(WBAHTTPRequestOperation *operation, NSError *error) {

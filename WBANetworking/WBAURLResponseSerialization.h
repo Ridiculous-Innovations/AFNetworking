@@ -48,11 +48,11 @@
 #pragma mark -
 
 /**
- `AFHTTPResponseSerializer` conforms to the `WBAURLRequestSerialization` & `WBAURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
+ `WBAHTTPResponseSerializer` conforms to the `WBAURLRequestSerialization` & `WBAURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
 
- Any request or response serializer dealing with HTTP is encouraged to subclass `AFHTTPResponseSerializer` in order to ensure consistent default behavior.
+ Any request or response serializer dealing with HTTP is encouraged to subclass `WBAHTTPResponseSerializer` in order to ensure consistent default behavior.
  */
-@interface AFHTTPResponseSerializer : NSObject <WBAURLResponseSerialization>
+@interface WBAHTTPResponseSerializer : NSObject <WBAURLResponseSerialization>
 
 - (instancetype) init;
 
@@ -103,15 +103,15 @@
 
 
 /**
- `AFJSONResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes JSON responses.
+ `WBAJSONResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes JSON responses.
 
- By default, `AFJSONResponseSerializer` accepts the following MIME types, which includes the official standard, `application/json`, as well as other commonly-used types:
+ By default, `WBAJSONResponseSerializer` accepts the following MIME types, which includes the official standard, `application/json`, as well as other commonly-used types:
 
  - `application/json`
  - `text/json`
  - `text/javascript`
  */
-@interface AFJSONResponseSerializer : AFHTTPResponseSerializer
+@interface WBAJSONResponseSerializer : WBAHTTPResponseSerializer
 
 - (instancetype) init;
 
@@ -137,14 +137,14 @@
 #pragma mark -
 
 /**
- `AFXMLParserResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLParser` objects.
+ `WBAXMLParserResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLParser` objects.
 
- By default, `AFXMLParserResponseSerializer` accepts the following MIME types, which includes the official standard, `application/xml`, as well as other commonly-used types:
+ By default, `WBAXMLParserResponseSerializer` accepts the following MIME types, which includes the official standard, `application/xml`, as well as other commonly-used types:
 
  - `application/xml`
  - `text/xml`
  */
-@interface AFXMLParserResponseSerializer : AFHTTPResponseSerializer
+@interface WBAXMLParserResponseSerializer : WBAHTTPResponseSerializer
 
 @end
 
@@ -153,14 +153,14 @@
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
 
 /**
- `AFXMLDocumentResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
+ `WBAXMLDocumentResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
 
- By default, `AFXMLDocumentResponseSerializer` accepts the following MIME types, which includes the official standard, `application/xml`, as well as other commonly-used types:
+ By default, `WBAXMLDocumentResponseSerializer` accepts the following MIME types, which includes the official standard, `application/xml`, as well as other commonly-used types:
 
  - `application/xml`
  - `text/xml`
  */
-@interface AFXMLDocumentResponseSerializer : AFHTTPResponseSerializer
+@interface WBAXMLDocumentResponseSerializer : WBAHTTPResponseSerializer
 
 - (instancetype) init;
 
@@ -183,13 +183,13 @@
 #pragma mark -
 
 /**
- `AFPropertyListResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
+ `AFPropertyListResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
 
  By default, `AFPropertyListResponseSerializer` accepts the following MIME types:
 
  - `application/x-plist`
  */
-@interface AFPropertyListResponseSerializer : AFHTTPResponseSerializer
+@interface AFPropertyListResponseSerializer : WBAHTTPResponseSerializer
 
 - (instancetype) init;
 
@@ -217,7 +217,7 @@
 #pragma mark -
 
 /**
- `AFImageResponseSerializer` is a subclass of `AFHTTPResponseSerializer` that validates and decodes image responses.
+ `AFImageResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes image responses.
 
  By default, `AFImageResponseSerializer` accepts the following MIME types, which correspond to the image formats supported by UIImage or NSImage:
 
@@ -232,7 +232,7 @@
  - `image/x-xbitmap`
  - `image/x-win-bitmap`
  */
-@interface AFImageResponseSerializer : AFHTTPResponseSerializer
+@interface AFImageResponseSerializer : WBAHTTPResponseSerializer
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 /**
@@ -251,9 +251,9 @@
 #pragma mark -
 
 /**
- `AFCompoundSerializer` is a subclass of `AFHTTPResponseSerializer` that delegates the response serialization to the first `AFHTTPResponseSerializer` object that returns an object for `responseObjectForResponse:data:error:`, falling back on the default behavior of `AFHTTPResponseSerializer`. This is useful for supporting multiple potential types and structures of server responses with a single serializer.
+ `AFCompoundSerializer` is a subclass of `WBAHTTPResponseSerializer` that delegates the response serialization to the first `WBAHTTPResponseSerializer` object that returns an object for `responseObjectForResponse:data:error:`, falling back on the default behavior of `WBAHTTPResponseSerializer`. This is useful for supporting multiple potential types and structures of server responses with a single serializer.
  */
-@interface AFCompoundResponseSerializer : AFHTTPResponseSerializer
+@interface AFCompoundResponseSerializer : WBAHTTPResponseSerializer
 
 /**
  The component response serializers.
@@ -263,7 +263,7 @@
 /**
  Creates and returns a compound serializer comprised of the specified response serializers.
 
- @warning Each response serializer specified must be a subclass of `AFHTTPResponseSerializer`, and response to `-validateResponse:data:error:`.
+ @warning Each response serializer specified must be a subclass of `WBAHTTPResponseSerializer`, and response to `-validateResponse:data:error:`.
  */
 + (instancetype)compoundSerializerWithResponseSerializers:(NSArray *)responseSerializers;
 
@@ -283,7 +283,7 @@
  ### Constants
 
  `WBAURLResponseSerializationErrorDomain`
- AFURLResponseSerializer errors. Error codes for `WBAURLResponseSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ WBAURLResponseSerializer errors. Error codes for `WBAURLResponseSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
 extern NSString * const WBAURLResponseSerializationErrorDomain;
 

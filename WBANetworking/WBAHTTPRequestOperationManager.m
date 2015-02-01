@@ -60,7 +60,7 @@
     self.baseURL = url;
 
     self.requestSerializer = [WBAHTTPRequestSerializer serializer];
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.responseSerializer = [WBAJSONResponseSerializer serializer];
 
     self.securityPolicy = [WBASecurityPolicy defaultPolicy];
 
@@ -84,7 +84,7 @@
     _requestSerializer = requestSerializer;
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(WBAHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     _responseSerializer = responseSerializer;
@@ -260,7 +260,7 @@
     }
 
     self.requestSerializer = [decoder decodeObjectOfClass:[WBAHTTPRequestSerializer class] forKey:NSStringFromSelector(@selector(requestSerializer))];
-    self.responseSerializer = [decoder decodeObjectOfClass:[AFHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
+    self.responseSerializer = [decoder decodeObjectOfClass:[WBAHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
 
     return self;
 }

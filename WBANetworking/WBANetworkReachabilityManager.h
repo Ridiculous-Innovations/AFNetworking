@@ -23,11 +23,11 @@
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
-    AFNetworkReachabilityStatusUnknown          = -1,
-    AFNetworkReachabilityStatusNotReachable     = 0,
-    AFNetworkReachabilityStatusReachableViaWWAN = 1,
-    AFNetworkReachabilityStatusReachableViaWiFi = 2,
+typedef NS_ENUM(NSInteger, WBANetworkReachabilityStatus) {
+    WBANetworkReachabilityStatusUnknown          = -1,
+    WBANetworkReachabilityStatusNotReachable     = 0,
+    WBANetworkReachabilityStatusReachableViaWWAN = 1,
+    WBANetworkReachabilityStatusReachableViaWiFi = 2,
 };
 
 /**
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 /**
  The current network reachability status.
  */
-@property (readonly, nonatomic, assign) AFNetworkReachabilityStatus networkReachabilityStatus;
+@property (readonly, nonatomic, assign) WBANetworkReachabilityStatus networkReachabilityStatus;
 
 /**
  Whether or not the network is currently reachable.
@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
  @param block A block object to be executed when the network availability of the `baseURL` host changes.. This block has no return value and takes a single argument which represents the various reachability states from the device to the `baseURL`.
  */
-- (void)setReachabilityStatusChangeBlock:(void (^)(AFNetworkReachabilityStatus status))block;
+- (void)setReachabilityStatusChangeBlock:(void (^)(WBANetworkReachabilityStatus status))block;
 
 @end
 
@@ -143,22 +143,22 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
  The following constants are provided by `WBANetworkReachabilityManager` as possible network reachability statuses.
 
  enum {
- AFNetworkReachabilityStatusUnknown,
- AFNetworkReachabilityStatusNotReachable,
- AFNetworkReachabilityStatusReachableViaWWAN,
- AFNetworkReachabilityStatusReachableViaWiFi,
+ WBANetworkReachabilityStatusUnknown,
+ WBANetworkReachabilityStatusNotReachable,
+ WBANetworkReachabilityStatusReachableViaWWAN,
+ WBANetworkReachabilityStatusReachableViaWiFi,
  }
 
- `AFNetworkReachabilityStatusUnknown`
+ `WBANetworkReachabilityStatusUnknown`
  The `baseURL` host reachability is not known.
 
- `AFNetworkReachabilityStatusNotReachable`
+ `WBANetworkReachabilityStatusNotReachable`
  The `baseURL` host cannot be reached.
 
- `AFNetworkReachabilityStatusReachableViaWWAN`
+ `WBANetworkReachabilityStatusReachableViaWWAN`
  The `baseURL` host can be reached via a cellular connection, such as EDGE or GPRS.
 
- `AFNetworkReachabilityStatusReachableViaWiFi`
+ `WBANetworkReachabilityStatusReachableViaWiFi`
  The `baseURL` host can be reached via a Wi-Fi connection.
 
  ### Keys for Notification UserInfo Dictionary
@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
  `WBANetworkingReachabilityNotificationStatusItem`
  A key in the userInfo dictionary in a `WBANetworkingReachabilityDidChangeNotification` notification.
- The corresponding value is an `NSNumber` object representing the `AFNetworkReachabilityStatus` value for the current reachability status.
+ The corresponding value is an `NSNumber` object representing the `WBANetworkReachabilityStatus` value for the current reachability status.
  */
 
 ///--------------------
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSInteger, AFNetworkReachabilityStatus) {
 
 /**
  Posted when network reachability changes.
- This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `WBANetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
+ This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `WBANetworkingReachabilityNotificationStatusItem` key, representing the `WBANetworkReachabilityStatus` value for the current network reachability.
 
  @warning In order for network reachability to be monitored, include the `SystemConfiguration` framework in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
@@ -188,6 +188,6 @@ extern NSString * const WBANetworkingReachabilityNotificationStatusItem;
 ///--------------------
 
 /**
- Returns a localized string representation of an `AFNetworkReachabilityStatus` value.
+ Returns a localized string representation of an `WBANetworkReachabilityStatus` value.
  */
-extern NSString * AFStringFromNetworkReachabilityStatus(AFNetworkReachabilityStatus status);
+extern NSString * AFStringFromNetworkReachabilityStatus(WBANetworkReachabilityStatus status);

@@ -1,4 +1,4 @@
-// AFHTTPRequestOperation.m
+// WBAHTTPRequestOperation.m
 //
 // Copyright (c) 2013-2015 WBANetworking (http://WBANetworking.com)
 //
@@ -65,12 +65,12 @@ static dispatch_group_t http_request_operation_completion_group() {
         return nil;
     }
 
-    self.responseSerializer = [AFHTTPResponseSerializer serializer];
+    self.responseSerializer = [WBAHTTPResponseSerializer serializer];
 
     return self;
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(WBAHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     [self.lock lock];
@@ -102,7 +102,7 @@ static dispatch_group_t http_request_operation_completion_group() {
     }
 }
 
-#pragma mark - AFHTTPRequestOperation
+#pragma mark - WBAHTTPRequestOperation
 
 - (void)setCompletionBlockWithSuccess:(void (^)(WBAHTTPRequestOperation *operation, id responseObject))success
                               failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure
@@ -148,7 +148,7 @@ static dispatch_group_t http_request_operation_completion_group() {
 #pragma clang diagnostic pop
 }
 
-#pragma mark - AFURLRequestOperation
+#pragma mark - WBAURLRequestOperation
 
 - (void)pause {
     [super pause];
@@ -180,7 +180,7 @@ static dispatch_group_t http_request_operation_completion_group() {
         return nil;
     }
 
-    self.responseSerializer = [decoder decodeObjectOfClass:[AFHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
+    self.responseSerializer = [decoder decodeObjectOfClass:[WBAHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
 
     return self;
 }

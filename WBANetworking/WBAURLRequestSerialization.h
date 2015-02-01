@@ -52,8 +52,8 @@
 /**
 
  */
-typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
-    AFHTTPRequestQueryStringDefaultStyle = 0,
+typedef NS_ENUM(NSUInteger, WBAHTTPRequestQueryStringSerializationStyle) {
+    WBAHTTPRequestQueryStringDefaultStyle = 0,
 };
 
 @protocol AFMultipartFormData;
@@ -183,9 +183,9 @@ forHTTPHeaderField:(NSString *)field;
 
  @param style The serialization style.
 
- @see AFHTTPRequestQueryStringSerializationStyle
+ @see WBAHTTPRequestQueryStringSerializationStyle
  */
-- (void)setQueryStringSerializationWithStyle:(AFHTTPRequestQueryStringSerializationStyle)style;
+- (void)setQueryStringSerializationWithStyle:(WBAHTTPRequestQueryStringSerializationStyle)style;
 
 /**
  Set the a custom method of query string serialization according to the specified block.
@@ -356,7 +356,7 @@ forHTTPHeaderField:(NSString *)field;
 /**
  Throttles request bandwidth by limiting the packet size and adding a delay for each chunk read from the upload stream.
 
- When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kAFUploadStream3GSuggestedPacketSize` and `kAFUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, there is no definite way to distinguish between a 3G, EDGE, or LTE connection over `NSURLConnection`. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
+ When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kWBAUploadStream3GSuggestedPacketSize` and `kWBAUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, there is no definite way to distinguish between a 3G, EDGE, or LTE connection over `NSURLConnection`. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
 
  @param numberOfBytes Maximum packet size, in number of bytes. The default packet size for an input stream is 16kb.
  @param delay Duration of delay each time a packet is read. By default, no delay is set.
@@ -369,9 +369,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- `AFJSONRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSJSONSerialization`, setting the `Content-Type` of the encoded request to `application/json`.
+ `WBAJSONRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSJSONSerialization`, setting the `Content-Type` of the encoded request to `application/json`.
  */
-@interface AFJSONRequestSerializer : WBAHTTPRequestSerializer
+@interface WBAJSONRequestSerializer : WBAHTTPRequestSerializer
 
 /**
  Options for writing the request JSON data from Foundation objects. For possible values, see the `NSJSONSerialization` documentation section "NSJSONWritingOptions". `0` by default.
@@ -433,7 +433,7 @@ forHTTPHeaderField:(NSString *)field;
  ### Constants
 
  `WBAURLRequestSerializationErrorDomain`
- AFURLRequestSerializer errors. Error codes for `WBAURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ WBAURLRequestSerializer errors. Error codes for `WBAURLRequestSerializationErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
 extern NSString * const WBAURLRequestSerializationErrorDomain;
 
@@ -458,11 +458,11 @@ extern NSString * const WBANetworkingOperationFailingURLRequestErrorKey;
 
  ### Constants
 
- `kAFUploadStream3GSuggestedPacketSize`
+ `kWBAUploadStream3GSuggestedPacketSize`
  Maximum packet size, in number of bytes. Equal to 16kb.
 
- `kAFUploadStream3GSuggestedDelay`
+ `kWBAUploadStream3GSuggestedDelay`
  Duration of delay each time a packet is read. Equal to 0.2 seconds.
  */
-extern NSUInteger const kAFUploadStream3GSuggestedPacketSize;
-extern NSTimeInterval const kAFUploadStream3GSuggestedDelay;
+extern NSUInteger const kWBAUploadStream3GSuggestedPacketSize;
+extern NSTimeInterval const kWBAUploadStream3GSuggestedDelay;

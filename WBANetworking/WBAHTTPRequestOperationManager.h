@@ -101,7 +101,7 @@
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) WBAHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
 
 /**
  The operation queue on which request operations are scheduled and run.
@@ -183,7 +183,7 @@
 ///---------------------------------------
 
 /**
- Creates an `AFHTTPRequestOperation`, and sets the response serializers to that of the HTTP client.
+ Creates an `WBAHTTPRequestOperation`, and sets the response serializers to that of the HTTP client.
 
  @param request The request object to be loaded asynchronously during execution of the operation.
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the created request operation and the object created from the response data of request.
@@ -198,7 +198,7 @@
 ///---------------------------
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `GET` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `GET` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -213,7 +213,7 @@
                         failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `HEAD` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `HEAD` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -228,7 +228,7 @@
                          failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `POST` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `POST` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -243,7 +243,7 @@
                          failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a multipart `POST` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a multipart `POST` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -260,7 +260,7 @@
                          failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `PUT` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `PUT` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -275,7 +275,7 @@
                         failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `PATCH` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `PATCH` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
@@ -290,7 +290,7 @@
                           failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 
 /**
- Creates and runs an `AFHTTPRequestOperation` with a `DELETE` request.
+ Creates and runs an `WBAHTTPRequestOperation` with a `DELETE` request.
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.

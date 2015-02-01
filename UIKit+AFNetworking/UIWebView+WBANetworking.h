@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class WBAHTTPRequestSerializer, AFHTTPResponseSerializer;
+@class WBAHTTPRequestSerializer, WBAHTTPResponseSerializer;
 @protocol WBAURLRequestSerialization, WBAURLResponseSerialization;
 
 /**
@@ -44,9 +44,9 @@
 @property (nonatomic, strong) WBAHTTPRequestSerializer <WBAURLRequestSerialization> * requestSerializer;
 
 /**
- The response serializer used to serialize responses made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPResponseSerializer`.
+ The response serializer used to serialize responses made with the `-loadRequest:...` category methods. By default, this is an instance of `WBAHTTPResponseSerializer`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) WBAHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
 
 /**
  Asynchronously loads the specified request.

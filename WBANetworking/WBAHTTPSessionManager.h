@@ -87,11 +87,11 @@
 @property (nonatomic, strong) WBAHTTPRequestSerializer <WBAURLRequestSerialization> * requestSerializer;
 
 /**
- Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an instance of `AFJSONResponseSerializer`.
+ Responses sent from the server in data tasks created with `dataTaskWithRequest:success:failure:` and run using the `GET` / `POST` / et al. convenience methods are automatically validated and serialized by the response serializer. By default, this property is set to an instance of `WBAJSONResponseSerializer`.
 
  @warning `responseSerializer` must not be `nil`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) WBAHTTPResponseSerializer <WBAURLResponseSerialization> * responseSerializer;
 
 ///---------------------
 /// @name Initialization
