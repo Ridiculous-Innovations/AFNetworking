@@ -58,7 +58,7 @@
 
 #pragma mark -
 
-- (void)setAnimatingWithStateOfOperation:(AFURLConnectionOperation *)operation {
+- (void)setAnimatingWithStateOfOperation:(WBAURLConnectionOperation *)operation {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
     [notificationCenter removeObserver:self name:AFNetworkingOperationDidStartNotification object:nil];

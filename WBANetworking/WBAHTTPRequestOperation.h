@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "AFURLConnectionOperation.h"
+#import "WBAURLConnectionOperation.h"
 
 /**
- `AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
+ `AFHTTPRequestOperation` is a subclass of `WBAURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
  */
-@interface WBAHTTPRequestOperation : AFURLConnectionOperation
+@interface WBAHTTPRequestOperation : WBAURLConnectionOperation
 
 ///------------------------------------------------
 /// @name Getting HTTP URL Connection Information

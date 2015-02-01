@@ -54,7 +54,7 @@
 }
 #endif
 
-- (void)setRefreshingWithStateOfOperation:(AFURLConnectionOperation *)operation {
+- (void)setRefreshingWithStateOfOperation:(WBAURLConnectionOperation *)operation {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
     [notificationCenter removeObserver:self name:AFNetworkingOperationDidStartNotification object:nil];

@@ -31,7 +31,7 @@
     #import "WBASecurityPolicy.h"
     #import "WBANetworkReachabilityManager.h"
 
-    #import "AFURLConnectionOperation.h"
+    #import "WBAURLConnectionOperation.h"
     #import "WBAHTTPRequestOperation.h"
     #import "WBAHTTPRequestOperationManager.h"
 

@@ -26,7 +26,7 @@
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
-#import "AFURLConnectionOperation.h"
+#import "WBAURLConnectionOperation.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #import "AFURLSessionManager.h"
@@ -35,7 +35,7 @@
 static void * AFTaskCountOfBytesSentContext = &AFTaskCountOfBytesSentContext;
 static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedContext;
 
-@interface AFURLConnectionOperation (_UIProgressView)
+@interface WBAURLConnectionOperation (_UIProgressView)
 @property (readwrite, nonatomic, copy) void (^uploadProgress)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
 @property (readwrite, nonatomic, assign, setter = af_setUploadProgressAnimated:) BOOL af_uploadProgressAnimated;
 
@@ -43,11 +43,11 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 @property (readwrite, nonatomic, assign, setter = af_setDownloadProgressAnimated:) BOOL af_downloadProgressAnimated;
 @end
 
-@implementation AFURLConnectionOperation (_UIProgressView)
-@dynamic uploadProgress; // Implemented in AFURLConnectionOperation
+@implementation WBAURLConnectionOperation (_UIProgressView)
+@dynamic uploadProgress; // Implemented in WBAURLConnectionOperation
 @dynamic af_uploadProgressAnimated;
 
-@dynamic downloadProgress; // Implemented in AFURLConnectionOperation
+@dynamic downloadProgress; // Implemented in WBAURLConnectionOperation
 @dynamic af_downloadProgressAnimated;
 @end
 
@@ -95,7 +95,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 
 #pragma mark -
 
-- (void)setProgressWithUploadProgressOfOperation:(AFURLConnectionOperation *)operation
+- (void)setProgressWithUploadProgressOfOperation:(WBAURLConnectionOperation *)operation
                                         animated:(BOOL)animated
 {
     __weak __typeof(self)weakSelf = self;
@@ -114,7 +114,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
     }];
 }
 
-- (void)setProgressWithDownloadProgressOfOperation:(AFURLConnectionOperation *)operation
+- (void)setProgressWithDownloadProgressOfOperation:(WBAURLConnectionOperation *)operation
                                           animated:(BOOL)animated
 {
     __weak __typeof(self)weakSelf = self;

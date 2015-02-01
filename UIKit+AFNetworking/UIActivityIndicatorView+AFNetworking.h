@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFURLConnectionOperation;
+@class WBAURLConnectionOperation;
 
 /**
  This category adds methods to the UIKit framework's `UIActivityIndicatorView` class. The methods in this category provide support for automatically starting and stopping animation depending on the loading state of a request operation or session task.
@@ -57,7 +57,7 @@
 
  @param operation The operation. If `nil`, automatic updating from any previously specified operation will be disabled.
  */
-- (void)setAnimatingWithStateOfOperation:(AFURLConnectionOperation *)operation;
+- (void)setAnimatingWithStateOfOperation:(WBAURLConnectionOperation *)operation;
 
 @end
 

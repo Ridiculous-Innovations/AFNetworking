@@ -33,8 +33,8 @@
 static NSTimeInterval const kAFNetworkActivityIndicatorInvisibilityDelay = 0.17;
 
 static NSURLRequest * AFNetworkRequestFromNotification(NSNotification *notification) {
-    if ([[notification object] isKindOfClass:[AFURLConnectionOperation class]]) {
-        return [(AFURLConnectionOperation *)[notification object] request];
+    if ([[notification object] isKindOfClass:[WBAURLConnectionOperation class]]) {
+        return [(WBAURLConnectionOperation *)[notification object] request];
     }
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000

@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFURLConnectionOperation;
+@class WBAURLConnectionOperation;
 
 /**
  This category adds methods to the UIKit framework's `UIProgressView` class. The methods in this category provide support for binding the progress to the upload and download progress of a session task or request operation.
@@ -71,7 +71,7 @@
  @param operation The request operation.
  @param animated `YES` if the change should be animated, `NO` if the change should happen immediately.
  */
-- (void)setProgressWithUploadProgressOfOperation:(AFURLConnectionOperation *)operation
+- (void)setProgressWithUploadProgressOfOperation:(WBAURLConnectionOperation *)operation
                                         animated:(BOOL)animated;
 
 /**
@@ -80,7 +80,7 @@
  @param operation The request operation.
  @param animated `YES` if the change should be animated, `NO` if the change should happen immediately.
  */
-- (void)setProgressWithDownloadProgressOfOperation:(AFURLConnectionOperation *)operation
+- (void)setProgressWithDownloadProgressOfOperation:(WBAURLConnectionOperation *)operation
                                           animated:(BOOL)animated;
 
 @end

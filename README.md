@@ -52,7 +52,7 @@ pod "AFNetworking", "~> 2.0"
 
 ### NSURLConnection
 
-- `AFURLConnectionOperation`
+- `WBAURLConnectionOperation`
 - `AFHTTPRequestOperation`
 - `WBAHTTPRequestOperationManager`
 
@@ -308,7 +308,7 @@ manager.securityPolicy.allowInvalidCertificates = YES; // not recommended for pr
 
 ### AFHTTPRequestOperation
 
-`AFHTTPRequestOperation` is a subclass of `AFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
+`AFHTTPRequestOperation` is a subclass of `WBAURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
 
 Although `WBAHTTPRequestOperationManager` is usually the best way to go about making requests, `AFHTTPRequestOperation` can be used by itself.
 
@@ -341,7 +341,7 @@ for (NSURL *fileURL in filesToUpload) {
     [mutableOperations addObject:operation];
 }
 
-NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:@[...] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+NSArray *operations = [WBAURLConnectionOperation batchOfRequestOperations:@[...] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
     NSLog(@"%lu of %lu complete", numberOfFinishedOperations, totalNumberOfOperations);
 } completionBlock:^(NSArray *operations) {
     NSLog(@"All operations in batch complete");

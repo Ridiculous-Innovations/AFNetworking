@@ -115,14 +115,14 @@
 /**
  Whether request operations should consult the credential storage for authenticating the connection. `YES` by default.
 
- @see AFURLConnectionOperation -shouldUseCredentialStorage
+ @see WBAURLConnectionOperation -shouldUseCredentialStorage
  */
 @property (nonatomic, assign) BOOL shouldUseCredentialStorage;
 
 /**
  The credential used by request operations for authentication challenges.
 
- @see AFURLConnectionOperation -credential
+ @see WBAURLConnectionOperation -credential
  */
 @property (nonatomic, strong) NSURLCredential *credential;
 

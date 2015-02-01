@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFURLConnectionOperation;
+@class WBAURLConnectionOperation;
 
 /**
  This category adds methods to the UIKit framework's `UIRefreshControl` class. The methods in this category provide support for automatically begining and ending refreshing depending on the loading state of a request operation or session task.
@@ -57,7 +57,7 @@
 
  @param operation The operation. If `nil`, automatic updating from any previously specified operation will be disabled.
  */
-- (void)setRefreshingWithStateOfOperation:(AFURLConnectionOperation *)operation;
+- (void)setRefreshingWithStateOfOperation:(WBAURLConnectionOperation *)operation;
 
 @end
 
