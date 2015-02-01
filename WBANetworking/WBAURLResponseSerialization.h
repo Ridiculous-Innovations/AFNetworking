@@ -183,13 +183,13 @@
 #pragma mark -
 
 /**
- `AFPropertyListResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
+ `WBAPropertyListResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes XML responses as an `NSXMLDocument` objects.
 
- By default, `AFPropertyListResponseSerializer` accepts the following MIME types:
+ By default, `WBAPropertyListResponseSerializer` accepts the following MIME types:
 
  - `application/x-plist`
  */
-@interface AFPropertyListResponseSerializer : WBAHTTPResponseSerializer
+@interface WBAPropertyListResponseSerializer : WBAHTTPResponseSerializer
 
 - (instancetype) init;
 
@@ -217,9 +217,9 @@
 #pragma mark -
 
 /**
- `AFImageResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes image responses.
+ `WBAImageResponseSerializer` is a subclass of `WBAHTTPResponseSerializer` that validates and decodes image responses.
 
- By default, `AFImageResponseSerializer` accepts the following MIME types, which correspond to the image formats supported by UIImage or NSImage:
+ By default, `WBAImageResponseSerializer` accepts the following MIME types, which correspond to the image formats supported by UIImage or NSImage:
 
  - `image/tiff`
  - `image/jpeg`
@@ -232,7 +232,7 @@
  - `image/x-xbitmap`
  - `image/x-win-bitmap`
  */
-@interface AFImageResponseSerializer : WBAHTTPResponseSerializer
+@interface WBAImageResponseSerializer : WBAHTTPResponseSerializer
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 /**
@@ -251,9 +251,9 @@
 #pragma mark -
 
 /**
- `AFCompoundSerializer` is a subclass of `WBAHTTPResponseSerializer` that delegates the response serialization to the first `WBAHTTPResponseSerializer` object that returns an object for `responseObjectForResponse:data:error:`, falling back on the default behavior of `WBAHTTPResponseSerializer`. This is useful for supporting multiple potential types and structures of server responses with a single serializer.
+ `WBACompoundSerializer` is a subclass of `WBAHTTPResponseSerializer` that delegates the response serialization to the first `WBAHTTPResponseSerializer` object that returns an object for `responseObjectForResponse:data:error:`, falling back on the default behavior of `WBAHTTPResponseSerializer`. This is useful for supporting multiple potential types and structures of server responses with a single serializer.
  */
-@interface AFCompoundResponseSerializer : WBAHTTPResponseSerializer
+@interface WBACompoundResponseSerializer : WBAHTTPResponseSerializer
 
 /**
  The component response serializers.

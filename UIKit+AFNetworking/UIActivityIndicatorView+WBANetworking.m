@@ -48,9 +48,9 @@
                 [self stopAnimating];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:WBANetworkingTaskDidResumeNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingTaskDidCompleteNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingTaskDidSuspendNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_startAnimating) name:WBANetworkingTaskDidResumeNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_stopAnimating) name:WBANetworkingTaskDidCompleteNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_stopAnimating) name:WBANetworkingTaskDidSuspendNotification object:task];
         }
     }
 }
@@ -72,21 +72,21 @@
                 [self stopAnimating];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_startAnimating) name:WBANetworkingOperationDidStartNotification object:operation];
-            [notificationCenter addObserver:self selector:@selector(af_stopAnimating) name:WBANetworkingOperationDidFinishNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(wba_startAnimating) name:WBANetworkingOperationDidStartNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(wba_stopAnimating) name:WBANetworkingOperationDidFinishNotification object:operation];
         }
     }
 }
 
 #pragma mark -
 
-- (void)af_startAnimating {
+- (void)wba_startAnimating {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self startAnimating];
     });
 }
 
-- (void)af_stopAnimating {
+- (void)wba_stopAnimating {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self stopAnimating];
     });

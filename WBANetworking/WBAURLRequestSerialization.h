@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, WBAHTTPRequestQueryStringSerializationStyle) {
     WBAHTTPRequestQueryStringDefaultStyle = 0,
 };
 
-@protocol AFMultipartFormData;
+@protocol WBAMultipartFormData;
 
 /**
  `WBAHTTPRequestSerializer` conforms to the `WBAURLRequestSerialization` & `WBAURLResponseSerialization` protocols, offering a concrete base implementation of query string / URL form-encoded parameter serialization and default request headers, as well as response status code and content type validation.
@@ -228,7 +228,7 @@ forHTTPHeaderField:(NSString *)field;
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block DEPRECATED_ATTRIBUTE;
+                              constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block DEPRECATED_ATTRIBUTE;
 
 /**
  Creates an `NSMutableURLRequest` object with the specified HTTP method and URLString, and constructs a `multipart/form-data` HTTP body, using the specified parameters and multipart form data block. See http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.2
@@ -238,7 +238,7 @@ forHTTPHeaderField:(NSString *)field;
  @param method The HTTP method for the request. This parameter must not be `GET` or `HEAD`, or `nil`.
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded and set in the request HTTP body.
- @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `AFMultipartFormData` protocol.
+ @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `WBAMultipartFormData` protocol.
  @param error The error that occured while constructing the request.
 
  @return An `NSMutableURLRequest` object
@@ -246,7 +246,7 @@ forHTTPHeaderField:(NSString *)field;
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                              constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block
                                                   error:(NSError * __autoreleasing *)error;
 
 /**
@@ -269,9 +269,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `WBAHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
+ The `WBAMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `WBAHTTPRequestSerializer -multipartFormRequestWithMethod:URLString:parameters:constructingBodyWithBlock:`.
  */
-@protocol AFMultipartFormData
+@protocol WBAMultipartFormData
 
 /**
  Appends the HTTP header `Content-Disposition: file; filename=#{generated filename}; name=#{name}"` and `Content-Type: #{generated mimeType}`, followed by the encoded file data and the multipart form boundary.
@@ -390,9 +390,9 @@ forHTTPHeaderField:(NSString *)field;
 #pragma mark -
 
 /**
- `AFPropertyListRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSPropertyListSerializer`, setting the `Content-Type` of the encoded request to `application/x-plist`.
+ `WBAPropertyListRequestSerializer` is a subclass of `WBAHTTPRequestSerializer` that encodes parameters as JSON using `NSPropertyListSerializer`, setting the `Content-Type` of the encoded request to `application/x-plist`.
  */
-@interface AFPropertyListRequestSerializer : WBAHTTPRequestSerializer
+@interface WBAPropertyListRequestSerializer : WBAHTTPRequestSerializer
 
 /**
  The property list format. Possible values are described in "NSPropertyListFormat".

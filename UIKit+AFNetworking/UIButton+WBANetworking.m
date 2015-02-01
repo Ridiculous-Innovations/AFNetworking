@@ -36,77 +36,77 @@
 
 @implementation UIButton (_WBANetworking)
 
-+ (NSOperationQueue *)af_sharedImageRequestOperationQueue {
-    static NSOperationQueue *_af_sharedImageRequestOperationQueue = nil;
++ (NSOperationQueue *)wba_sharedImageRequestOperationQueue {
+    static NSOperationQueue *_wba_sharedImageRequestOperationQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_sharedImageRequestOperationQueue = [[NSOperationQueue alloc] init];
-        _af_sharedImageRequestOperationQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+        _wba_sharedImageRequestOperationQueue = [[NSOperationQueue alloc] init];
+        _wba_sharedImageRequestOperationQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
     });
 
-    return _af_sharedImageRequestOperationQueue;
+    return _wba_sharedImageRequestOperationQueue;
 }
 
 #pragma mark -
 
-static char AFImageRequestOperationNormal;
-static char AFImageRequestOperationHighlighted;
-static char AFImageRequestOperationSelected;
-static char AFImageRequestOperationDisabled;
+static char WBAImageRequestOperationNormal;
+static char WBAImageRequestOperationHighlighted;
+static char WBAImageRequestOperationSelected;
+static char WBAImageRequestOperationDisabled;
 
-static const char * af_imageRequestOperationKeyForState(UIControlState state) {
+static const char * wba_imageRequestOperationKeyForState(UIControlState state) {
     switch (state) {
         case UIControlStateHighlighted:
-            return &AFImageRequestOperationHighlighted;
+            return &WBAImageRequestOperationHighlighted;
         case UIControlStateSelected:
-            return &AFImageRequestOperationSelected;
+            return &WBAImageRequestOperationSelected;
         case UIControlStateDisabled:
-            return &AFImageRequestOperationDisabled;
+            return &WBAImageRequestOperationDisabled;
         case UIControlStateNormal:
         default:
-            return &AFImageRequestOperationNormal;
+            return &WBAImageRequestOperationNormal;
     }
 }
 
-- (WBAHTTPRequestOperation *)af_imageRequestOperationForState:(UIControlState)state {
-    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, af_imageRequestOperationKeyForState(state));
+- (WBAHTTPRequestOperation *)wba_imageRequestOperationForState:(UIControlState)state {
+    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, wba_imageRequestOperationKeyForState(state));
 }
 
-- (void)af_setImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation
+- (void)wba_setImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation
                            forState:(UIControlState)state
 {
-    objc_setAssociatedObject(self, af_imageRequestOperationKeyForState(state), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, wba_imageRequestOperationKeyForState(state), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
-static char AFBackgroundImageRequestOperationNormal;
-static char AFBackgroundImageRequestOperationHighlighted;
-static char AFBackgroundImageRequestOperationSelected;
-static char AFBackgroundImageRequestOperationDisabled;
+static char WBABackgroundImageRequestOperationNormal;
+static char WBABackgroundImageRequestOperationHighlighted;
+static char WBABackgroundImageRequestOperationSelected;
+static char WBABackgroundImageRequestOperationDisabled;
 
-static const char * af_backgroundImageRequestOperationKeyForState(UIControlState state) {
+static const char * wba_backgroundImageRequestOperationKeyForState(UIControlState state) {
     switch (state) {
         case UIControlStateHighlighted:
-            return &AFBackgroundImageRequestOperationHighlighted;
+            return &WBABackgroundImageRequestOperationHighlighted;
         case UIControlStateSelected:
-            return &AFBackgroundImageRequestOperationSelected;
+            return &WBABackgroundImageRequestOperationSelected;
         case UIControlStateDisabled:
-            return &AFBackgroundImageRequestOperationDisabled;
+            return &WBABackgroundImageRequestOperationDisabled;
         case UIControlStateNormal:
         default:
-            return &AFBackgroundImageRequestOperationNormal;
+            return &WBABackgroundImageRequestOperationNormal;
     }
 }
 
-- (WBAHTTPRequestOperation *)af_backgroundImageRequestOperationForState:(UIControlState)state {
-    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, af_backgroundImageRequestOperationKeyForState(state));
+- (WBAHTTPRequestOperation *)wba_backgroundImageRequestOperationForState:(UIControlState)state {
+    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, wba_backgroundImageRequestOperationKeyForState(state));
 }
 
-- (void)af_setBackgroundImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation
+- (void)wba_setBackgroundImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation
                                      forState:(UIControlState)state
 {
-    objc_setAssociatedObject(self, af_backgroundImageRequestOperationKeyForState(state), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, wba_backgroundImageRequestOperationKeyForState(state), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -115,29 +115,29 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
 
 @implementation UIButton (WBANetworking)
 
-+ (id <AFImageCache>)sharedImageCache {
++ (id <WBAImageCache>)sharedImageCache {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
     return objc_getAssociatedObject(self, @selector(sharedImageCache)) ?: [UIImageView sharedImageCache];
 #pragma clang diagnostic pop
 }
 
-+ (void)setSharedImageCache:(id <AFImageCache>)imageCache {
++ (void)setSharedImageCache:(id <WBAImageCache>)imageCache {
     objc_setAssociatedObject(self, @selector(sharedImageCache), imageCache, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
 - (id <WBAURLResponseSerialization>)imageResponseSerializer {
-    static id <WBAURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
+    static id <WBAURLResponseSerialization> _wba_defaultImageResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
+        _wba_defaultImageResponseSerializer = [WBAImageResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(imageResponseSerializer)) ?: _af_defaultImageResponseSerializer;
+    return objc_getAssociatedObject(self, @selector(imageResponseSerializer)) ?: _wba_defaultImageResponseSerializer;
 #pragma clang diagnostic pop
 }
 
@@ -179,7 +179,7 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
             [self setImage:cachedImage forState:state];
         }
 
-        [self af_setImageRequestOperation:nil forState:state];
+        [self wba_setImageRequestOperation:nil forState:state];
     } else {
         if (placeholderImage) {
             [self setImage:placeholderImage forState:state];
@@ -206,8 +206,8 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
             }
         }];
 
-        [self af_setImageRequestOperation:imageRequestOperation forState:state];
-        [[[self class] af_sharedImageRequestOperationQueue] addOperation:imageRequestOperation];
+        [self wba_setImageRequestOperation:imageRequestOperation forState:state];
+        [[[self class] wba_sharedImageRequestOperationQueue] addOperation:imageRequestOperation];
     }
 }
 
@@ -245,7 +245,7 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
             [self setBackgroundImage:cachedImage forState:state];
         }
 
-        [self af_setBackgroundImageRequestOperation:nil forState:state];
+        [self wba_setBackgroundImageRequestOperation:nil forState:state];
     } else {
         if (placeholderImage) {
             [self setBackgroundImage:placeholderImage forState:state];
@@ -272,21 +272,21 @@ static const char * af_backgroundImageRequestOperationKeyForState(UIControlState
             }
         }];
 
-        [self af_setBackgroundImageRequestOperation:backgroundImageRequestOperation forState:state];
-        [[[self class] af_sharedImageRequestOperationQueue] addOperation:backgroundImageRequestOperation];
+        [self wba_setBackgroundImageRequestOperation:backgroundImageRequestOperation forState:state];
+        [[[self class] wba_sharedImageRequestOperationQueue] addOperation:backgroundImageRequestOperation];
     }
 }
 
 #pragma mark -
 
 - (void)cancelImageRequestOperationForState:(UIControlState)state {
-    [[self af_imageRequestOperationForState:state] cancel];
-    [self af_setImageRequestOperation:nil forState:state];
+    [[self wba_imageRequestOperationForState:state] cancel];
+    [self wba_setImageRequestOperation:nil forState:state];
 }
 
 - (void)cancelBackgroundImageRequestOperationForState:(UIControlState)state {
-    [[self af_backgroundImageRequestOperationForState:state] cancel];
-    [self af_setBackgroundImageRequestOperation:nil forState:state];
+    [[self wba_backgroundImageRequestOperationForState:state] cancel];
+    [self wba_setBackgroundImageRequestOperation:nil forState:state];
 }
 
 @end

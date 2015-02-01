@@ -23,10 +23,10 @@
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
 
-typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
-    AFSSLPinningModeNone,
-    AFSSLPinningModePublicKey,
-    AFSSLPinningModeCertificate,
+typedef NS_ENUM(NSUInteger, WBASSLPinningMode) {
+    WBASSLPinningModeNone,
+    WBASSLPinningModePublicKey,
+    WBASSLPinningModeCertificate,
 };
 
 /**
@@ -37,9 +37,9 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
 @interface WBASecurityPolicy : NSObject
 
 /**
- The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults to `AFSSLPinningModeNone`.
+ The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults to `WBASSLPinningModeNone`.
  */
-@property (readonly, nonatomic, assign) AFSSLPinningMode SSLPinningMode;
+@property (readonly, nonatomic, assign) WBASSLPinningMode SSLPinningMode;
 
 /**
  Whether to evaluate an entire SSL certificate chain, or just the leaf certificate. Defaults to `YES`.
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 
 /**
- Whether or not to validate the domain name in the certificate's CN field. Defaults to `YES` for `AFSSLPinningModePublicKey` or `AFSSLPinningModeCertificate`, otherwise `NO`.
+ Whether or not to validate the domain name in the certificate's CN field. Defaults to `YES` for `WBASSLPinningModePublicKey` or `WBASSLPinningModeCertificate`, otherwise `NO`.
  */
 @property (nonatomic, assign) BOOL validatesDomainName;
 
@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
 
  @return A new security policy.
  */
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode;
++ (instancetype)policyWithPinningMode:(WBASSLPinningMode)pinningMode;
 
 ///------------------------------
 /// @name Evaluating Server Trust
@@ -124,20 +124,20 @@ typedef NS_ENUM(NSUInteger, AFSSLPinningMode) {
 /**
  ## SSL Pinning Modes
 
- The following constants are provided by `AFSSLPinningMode` as possible SSL pinning modes.
+ The following constants are provided by `WBASSLPinningMode` as possible SSL pinning modes.
 
  enum {
- AFSSLPinningModeNone,
- AFSSLPinningModePublicKey,
- AFSSLPinningModeCertificate,
+ WBASSLPinningModeNone,
+ WBASSLPinningModePublicKey,
+ WBASSLPinningModeCertificate,
  }
 
- `AFSSLPinningModeNone`
+ `WBASSLPinningModeNone`
  Do not used pinned certificates to validate servers.
 
- `AFSSLPinningModePublicKey`
+ `WBASSLPinningModePublicKey`
  Validate host certificates against public keys of pinned certificates.
 
- `AFSSLPinningModeCertificate`
+ `WBASSLPinningModeCertificate`
  Validate host certificates against pinned certificates.
 */

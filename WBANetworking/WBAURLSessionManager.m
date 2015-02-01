@@ -26,33 +26,33 @@
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
 static dispatch_queue_t url_session_manager_creation_queue() {
-    static dispatch_queue_t af_url_session_manager_creation_queue;
+    static dispatch_queue_t wba_url_session_manager_creation_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_url_session_manager_creation_queue = dispatch_queue_create("com.alamofire.networking.session.manager.creation", DISPATCH_QUEUE_SERIAL);
+        wba_url_session_manager_creation_queue = dispatch_queue_create("com.alamofire.networking.session.manager.creation", DISPATCH_QUEUE_SERIAL);
     });
 
-    return af_url_session_manager_creation_queue;
+    return wba_url_session_manager_creation_queue;
 }
 
 static dispatch_queue_t url_session_manager_processing_queue() {
-    static dispatch_queue_t af_url_session_manager_processing_queue;
+    static dispatch_queue_t wba_url_session_manager_processing_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_url_session_manager_processing_queue = dispatch_queue_create("com.alamofire.networking.session.manager.processing", DISPATCH_QUEUE_CONCURRENT);
+        wba_url_session_manager_processing_queue = dispatch_queue_create("com.alamofire.networking.session.manager.processing", DISPATCH_QUEUE_CONCURRENT);
     });
 
-    return af_url_session_manager_processing_queue;
+    return wba_url_session_manager_processing_queue;
 }
 
 static dispatch_group_t url_session_manager_completion_group() {
-    static dispatch_group_t af_url_session_manager_completion_group;
+    static dispatch_group_t wba_url_session_manager_completion_group;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_url_session_manager_completion_group = dispatch_group_create();
+        wba_url_session_manager_completion_group = dispatch_group_create();
     });
 
-    return af_url_session_manager_completion_group;
+    return wba_url_session_manager_completion_group;
 }
 
 NSString * const WBANetworkingTaskDidResumeNotification = @"com.alamofire.networking.task.resume";
@@ -78,9 +78,9 @@ NSString * const WBANetworkingTaskDidFinishAssetPathKey = @"com.alamofire.networ
 
 static NSString * const WBAURLSessionManagerLockName = @"com.alamofire.networking.session.manager.lock";
 
-static NSUInteger const AFMaximumNumberOfAttemptsToRecreateBackgroundSessionUploadTask = 3;
+static NSUInteger const WBAMaximumNumberOfAttemptsToRecreateBackgroundSessionUploadTask = 3;
 
-static void * AFTaskStateChangedContext = &AFTaskStateChangedContext;
+static void * WBATaskStateChangedContext = &WBATaskStateChangedContext;
 
 typedef void (^WBAURLSessionDidBecomeInvalidBlock)(NSURLSession *session, NSError *error);
 typedef NSURLSessionAuthChallengeDisposition (^WBAURLSessionDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential);
@@ -262,7 +262,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes {
  See https://github.com/WBANetworking/WBANetworking/issues/1477
  */
 
-static inline void af_swizzleSelector(Class class, SEL originalSelector, SEL swizzledSelector) {
+static inline void wba_swizzleSelector(Class class, SEL originalSelector, SEL swizzledSelector) {
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
     if (class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))) {
@@ -275,33 +275,33 @@ static inline void af_swizzleSelector(Class class, SEL originalSelector, SEL swi
 static NSString * const WBANSURLSessionTaskDidResumeNotification  = @"com.alamofire.networking.nsurlsessiontask.resume";
 static NSString * const WBANSURLSessionTaskDidSuspendNotification = @"com.alamofire.networking.nsurlsessiontask.suspend";
 
-@interface NSURLSessionTask (_AFStateObserving)
+@interface NSURLSessionTask (_WBAStateObserving)
 @end
 
-@implementation NSURLSessionTask (_AFStateObserving)
+@implementation NSURLSessionTask (_WBAStateObserving)
 
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_swizzleSelector([self class], @selector(resume), @selector(af_resume));
-        af_swizzleSelector([self class], @selector(suspend), @selector(af_suspend));
+        wba_swizzleSelector([self class], @selector(resume), @selector(wba_resume));
+        wba_swizzleSelector([self class], @selector(suspend), @selector(wba_suspend));
     });
 }
 
 #pragma mark -
 
-- (void)af_resume {
+- (void)wba_resume {
     NSURLSessionTaskState state = self.state;
-    [self af_resume];
+    [self wba_resume];
 
     if (state != NSURLSessionTaskStateRunning) {
         [[NSNotificationCenter defaultCenter] postNotificationName:WBANSURLSessionTaskDidResumeNotification object:self];
     }
 }
 
-- (void)af_suspend {
+- (void)wba_suspend {
     NSURLSessionTaskState state = self.state;
-    [self af_suspend];
+    [self wba_suspend];
 
     if (state != NSURLSessionTaskStateSuspended) {
         [[NSNotificationCenter defaultCenter] postNotificationName:WBANSURLSessionTaskDidSuspendNotification object:self];
@@ -621,7 +621,7 @@ static NSString * const WBANSURLSessionTaskDidSuspendNotification = @"com.alamof
     });
 
     if (!uploadTask && self.attemptsToRecreateUploadTasksForBackgroundSessions && self.session.configuration.identifier) {
-        for (NSUInteger attempts = 0; !uploadTask && attempts < AFMaximumNumberOfAttemptsToRecreateBackgroundSessionUploadTask; attempts++) {
+        for (NSUInteger attempts = 0; !uploadTask && attempts < WBAMaximumNumberOfAttemptsToRecreateBackgroundSessionUploadTask; attempts++) {
             uploadTask = [self.session uploadTaskWithRequest:request fromFile:fileURL];
         }
     }

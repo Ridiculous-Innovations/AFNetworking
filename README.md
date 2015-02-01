@@ -66,15 +66,15 @@ pod "WBANetworking", "~> 2.0"
 * `<WBAURLRequestSerialization>`
   - `WBAHTTPRequestSerializer`
   - `WBAJSONRequestSerializer`
-  - `AFPropertyListRequestSerializer`
+  - `WBAPropertyListRequestSerializer`
 * `<WBAURLResponseSerialization>`
   - `WBAHTTPResponseSerializer`
   - `WBAJSONResponseSerializer`
   - `WBAXMLParserResponseSerializer`
   - `WBAXMLDocumentResponseSerializer` _(Mac OS X)_
-  - `AFPropertyListResponseSerializer`
-  - `AFImageResponseSerializer`
-  - `AFCompoundResponseSerializer`
+  - `WBAPropertyListResponseSerializer`
+  - `WBAImageResponseSerializer`
+  - `WBACompoundResponseSerializer`
 
 ### Additional Functionality
 
@@ -116,7 +116,7 @@ NSDictionary *parameters = @{@"foo": @"bar"};
 WBAHTTPRequestOperationManager *manager = [WBAHTTPRequestOperationManager manager];
 NSDictionary *parameters = @{@"foo": @"bar"};
 NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
-[manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+[manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id<WBAMultipartFormData> formData) {
     [formData appendPartWithFileURL:filePath name:@"image" error:nil];
 } success:^(WBAHTTPRequestOperation *operation, id responseObject) {
     NSLog(@"Success: %@", responseObject);
@@ -172,7 +172,7 @@ NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithRequest:request from
 #### Creating an Upload Task for a Multi-Part Request, with Progress
 
 ```objective-c
-NSMutableURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+NSMutableURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<WBAMultipartFormData> formData) {
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
     } error:nil];
 
@@ -262,7 +262,7 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 
 ```objective-c
 [[WBANetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(WBANetworkReachabilityStatus status) {
-    NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+    NSLog(@"Reachability: %@", WBAStringFromNetworkReachabilityStatus(status));
 }];
 ```
 
@@ -332,7 +332,7 @@ op.responseSerializer = [WBAJSONResponseSerializer serializer];
 ```objective-c
 NSMutableArray *mutableOperations = [NSMutableArray array];
 for (NSURL *fileURL in filesToUpload) {
-    NSURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    NSURLRequest *request = [[WBAHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id<WBAMultipartFormData> formData) {
         [formData appendPartWithFileURL:fileURL name:@"images[]" error:nil];
     }];
 

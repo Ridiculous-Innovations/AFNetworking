@@ -30,7 +30,7 @@
 #import "WBAURLSessionManager.h"
 #endif
 
-static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __autoreleasing *title, NSString * __autoreleasing *message) {
+static void WBAGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __autoreleasing *title, NSString * __autoreleasing *message) {
     if (error.localizedDescription && (error.localizedRecoverySuggestion || error.localizedFailureReason)) {
         *title = error.localizedDescription;
 
@@ -74,7 +74,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
         NSError *error = notification.userInfo[WBANetworkingTaskDidCompleteErrorKey];
         if (error) {
             NSString *title, *message;
-            AFGetAlertViewTitleAndMessageFromError(error, &title, &message);
+            WBAGetAlertViewTitleAndMessageFromError(error, &title, &message);
 
             [alertView setTitle:title];
             [alertView setMessage:message];
@@ -112,7 +112,7 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
             NSError *error = [(WBAURLConnectionOperation *)notification.object error];
             if (error) {
                 NSString *title, *message;
-                AFGetAlertViewTitleAndMessageFromError(error, &title, &message);
+                WBAGetAlertViewTitleAndMessageFromError(error, &title, &message);
 
                 [alertView setTitle:title];
                 [alertView setMessage:message];

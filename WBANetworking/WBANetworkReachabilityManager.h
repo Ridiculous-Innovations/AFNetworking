@@ -190,4 +190,4 @@ extern NSString * const WBANetworkingReachabilityNotificationStatusItem;
 /**
  Returns a localized string representation of an `WBANetworkReachabilityStatus` value.
  */
-extern NSString * AFStringFromNetworkReachabilityStatus(WBANetworkReachabilityStatus status);
+extern NSString * WBAStringFromNetworkReachabilityStatus(WBANetworkReachabilityStatus status);

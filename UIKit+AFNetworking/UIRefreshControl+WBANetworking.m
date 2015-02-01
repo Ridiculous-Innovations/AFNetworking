@@ -44,9 +44,9 @@
         if (task.state == NSURLSessionTaskStateRunning) {
             [self beginRefreshing];
 
-            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:WBANetworkingTaskDidResumeNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingTaskDidCompleteNotification object:task];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingTaskDidSuspendNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_beginRefreshing) name:WBANetworkingTaskDidResumeNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_endRefreshing) name:WBANetworkingTaskDidCompleteNotification object:task];
+            [notificationCenter addObserver:self selector:@selector(wba_endRefreshing) name:WBANetworkingTaskDidSuspendNotification object:task];
         } else {
             [self endRefreshing];
         }
@@ -68,21 +68,21 @@
                 [self endRefreshing];
             }
 
-            [notificationCenter addObserver:self selector:@selector(af_beginRefreshing) name:WBANetworkingOperationDidStartNotification object:operation];
-            [notificationCenter addObserver:self selector:@selector(af_endRefreshing) name:WBANetworkingOperationDidFinishNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(wba_beginRefreshing) name:WBANetworkingOperationDidStartNotification object:operation];
+            [notificationCenter addObserver:self selector:@selector(wba_endRefreshing) name:WBANetworkingOperationDidFinishNotification object:operation];
         }
     }
 }
 
 #pragma mark -
 
-- (void)af_beginRefreshing {
+- (void)wba_beginRefreshing {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self beginRefreshing];
     });
 }
 
-- (void)af_endRefreshing {
+- (void)wba_endRefreshing {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self endRefreshing];
     });

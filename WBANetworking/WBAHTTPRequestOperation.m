@@ -23,23 +23,23 @@
 #import "WBAHTTPRequestOperation.h"
 
 static dispatch_queue_t http_request_operation_processing_queue() {
-    static dispatch_queue_t af_http_request_operation_processing_queue;
+    static dispatch_queue_t wba_http_request_operation_processing_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_http_request_operation_processing_queue = dispatch_queue_create("com.alamofire.networking.http-request.processing", DISPATCH_QUEUE_CONCURRENT);
+        wba_http_request_operation_processing_queue = dispatch_queue_create("com.alamofire.networking.http-request.processing", DISPATCH_QUEUE_CONCURRENT);
     });
 
-    return af_http_request_operation_processing_queue;
+    return wba_http_request_operation_processing_queue;
 }
 
 static dispatch_group_t http_request_operation_completion_group() {
-    static dispatch_group_t af_http_request_operation_completion_group;
+    static dispatch_group_t wba_http_request_operation_completion_group;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_http_request_operation_completion_group = dispatch_group_create();
+        wba_http_request_operation_completion_group = dispatch_group_create();
     });
 
-    return af_http_request_operation_completion_group;
+    return wba_http_request_operation_completion_group;
 }
 
 #pragma mark -

@@ -439,7 +439,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
 
 #pragma mark -
 
-@implementation AFPropertyListResponseSerializer
+@implementation WBAPropertyListResponseSerializer
 
 + (instancetype)serializer {
     return [self serializerWithFormat:NSPropertyListXMLFormat_v1_0 readOptions:0];
@@ -448,7 +448,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
 + (instancetype)serializerWithFormat:(NSPropertyListFormat)format
                          readOptions:(NSPropertyListReadOptions)readOptions
 {
-    AFPropertyListResponseSerializer *serializer = [[self alloc] init];
+    WBAPropertyListResponseSerializer *serializer = [[self alloc] init];
     serializer.format = format;
     serializer.readOptions = readOptions;
 
@@ -516,7 +516,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFPropertyListResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    WBAPropertyListResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.format = self.format;
     serializer.readOptions = self.readOptions;
 
@@ -530,13 +530,13 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <CoreGraphics/CoreGraphics.h>
 
-static UIImage * AFImageWithDataAtScale(NSData *data, CGFloat scale) {
+static UIImage * WBAImageWithDataAtScale(NSData *data, CGFloat scale) {
     UIImage *image = [[UIImage alloc] initWithData:data];
 
     return [[UIImage alloc] initWithCGImage:[image CGImage] scale:scale orientation:image.imageOrientation];
 }
 
-static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *response, NSData *data, CGFloat scale) {
+static UIImage * WBAInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *response, NSData *data, CGFloat scale) {
     if (!data || [data length] == 0) {
         return nil;
     }
@@ -549,7 +549,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
     } else if ([response.MIMEType isEqualToString:@"image/jpeg"]) {
         imageRef = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, true, kCGRenderingIntentDefault);
 
-        // CGImageCreateWithJPEGDataProvider does not properly handle CMKY, so if so, fall back to AFImageWithDataAtScale
+        // CGImageCreateWithJPEGDataProvider does not properly handle CMKY, so if so, fall back to WBAImageWithDataAtScale
         if (imageRef) {
             CGColorSpaceRef imageColorSpace = CGImageGetColorSpace(imageRef);
             CGColorSpaceModel imageColorSpaceModel = CGColorSpaceGetModel(imageColorSpace);
@@ -562,7 +562,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
     CGDataProviderRelease(dataProvider);
 
-    UIImage *image = AFImageWithDataAtScale(data, scale);
+    UIImage *image = WBAImageWithDataAtScale(data, scale);
     if (!imageRef) {
         if (image.images || !image) {
             return image;
@@ -628,7 +628,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #endif
 
 
-@implementation AFImageResponseSerializer
+@implementation WBAImageResponseSerializer
 
 - (instancetype)init {
     self = [super init];
@@ -660,9 +660,9 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     if (self.automaticallyInflatesResponseImage) {
-        return AFInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale);
+        return WBAInflatedImageFromResponseWithDataAtScale((NSHTTPURLResponse *)response, data, self.imageScale);
     } else {
-        return AFImageWithDataAtScale(data, self.imageScale);
+        return WBAImageWithDataAtScale(data, self.imageScale);
     }
 #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
     // Ensure that the image is set to it's correct pixel width and height
@@ -710,7 +710,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFImageResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    WBAImageResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     serializer.imageScale = self.imageScale;
@@ -724,14 +724,14 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 
 #pragma mark -
 
-@interface AFCompoundResponseSerializer ()
+@interface WBACompoundResponseSerializer ()
 @property (readwrite, nonatomic, copy) NSArray *responseSerializers;
 @end
 
-@implementation AFCompoundResponseSerializer
+@implementation WBACompoundResponseSerializer
 
 + (instancetype)compoundSerializerWithResponseSerializers:(NSArray *)responseSerializers {
-    AFCompoundResponseSerializer *serializer = [[self alloc] init];
+    WBACompoundResponseSerializer *serializer = [[self alloc] init];
     serializer.responseSerializers = responseSerializers;
 
     return serializer;
@@ -784,7 +784,7 @@ static UIImage * AFInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *r
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFCompoundResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
+    WBACompoundResponseSerializer *serializer = [[[self class] allocWithZone:zone] init];
     serializer.responseSerializers = self.responseSerializers;
 
     return serializer;

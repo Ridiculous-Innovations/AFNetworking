@@ -31,17 +31,17 @@
 #import "WBAURLRequestSerialization.h"
 
 @interface UIWebView (_WBANetworking)
-@property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) WBAHTTPRequestOperation *af_HTTPRequestOperation;
+@property (readwrite, nonatomic, strong, setter = wba_setHTTPRequestOperation:) WBAHTTPRequestOperation *wba_HTTPRequestOperation;
 @end
 
 @implementation UIWebView (_WBANetworking)
 
-- (WBAHTTPRequestOperation *)af_HTTPRequestOperation {
-    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
+- (WBAHTTPRequestOperation *)wba_HTTPRequestOperation {
+    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(wba_HTTPRequestOperation));
 }
 
-- (void)af_setHTTPRequestOperation:(WBAHTTPRequestOperation *)operation {
-    objc_setAssociatedObject(self, @selector(af_HTTPRequestOperation), operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)wba_setHTTPRequestOperation:(WBAHTTPRequestOperation *)operation {
+    objc_setAssociatedObject(self, @selector(wba_HTTPRequestOperation), operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -51,15 +51,15 @@
 @implementation UIWebView (WBANetworking)
 
 - (WBAHTTPRequestSerializer <WBAURLRequestSerialization> *)requestSerializer {
-    static WBAHTTPRequestSerializer <WBAURLRequestSerialization> *_af_defaultRequestSerializer = nil;
+    static WBAHTTPRequestSerializer <WBAURLRequestSerialization> *_wba_defaultRequestSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultRequestSerializer = [WBAHTTPRequestSerializer serializer];
+        _wba_defaultRequestSerializer = [WBAHTTPRequestSerializer serializer];
     });
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(requestSerializer)) ?: _af_defaultRequestSerializer;
+    return objc_getAssociatedObject(self, @selector(requestSerializer)) ?: _wba_defaultRequestSerializer;
 #pragma clang diagnostic pop
 }
 
@@ -68,15 +68,15 @@
 }
 
 - (WBAHTTPResponseSerializer <WBAURLResponseSerialization> *)responseSerializer {
-    static WBAHTTPResponseSerializer <WBAURLResponseSerialization> *_af_defaultResponseSerializer = nil;
+    static WBAHTTPResponseSerializer <WBAURLResponseSerialization> *_wba_defaultResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultResponseSerializer = [WBAHTTPResponseSerializer serializer];
+        _wba_defaultResponseSerializer = [WBAHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(responseSerializer)) ?: _af_defaultResponseSerializer;
+    return objc_getAssociatedObject(self, @selector(responseSerializer)) ?: _wba_defaultResponseSerializer;
 #pragma clang diagnostic pop
 }
 
@@ -118,18 +118,18 @@
 {
     NSParameterAssert(request);
 
-    if (self.af_HTTPRequestOperation) {
-        [self.af_HTTPRequestOperation cancel];
+    if (self.wba_HTTPRequestOperation) {
+        [self.wba_HTTPRequestOperation cancel];
     }
 
     request = [self.requestSerializer requestBySerializingRequest:request withParameters:nil error:nil];
 
-    self.af_HTTPRequestOperation = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
-    self.af_HTTPRequestOperation.responseSerializer = self.responseSerializer;
+    self.wba_HTTPRequestOperation = [[WBAHTTPRequestOperation alloc] initWithRequest:request];
+    self.wba_HTTPRequestOperation.responseSerializer = self.responseSerializer;
 
     __weak __typeof(self)weakSelf = self;
-    [self.af_HTTPRequestOperation setDownloadProgressBlock:progress];
-    [self.af_HTTPRequestOperation setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id __unused responseObject) {
+    [self.wba_HTTPRequestOperation setDownloadProgressBlock:progress];
+    [self.wba_HTTPRequestOperation setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id __unused responseObject) {
         NSData *data = success ? success(operation.response, operation.responseData) : operation.responseData;
 
 #pragma clang diagnostic push
@@ -143,7 +143,7 @@
         }
     }];
 
-    [self.af_HTTPRequestOperation start];
+    [self.wba_HTTPRequestOperation start];
 }
 
 @end

@@ -32,43 +32,43 @@
 #import "WBAURLSessionManager.h"
 #endif
 
-static void * AFTaskCountOfBytesSentContext = &AFTaskCountOfBytesSentContext;
-static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedContext;
+static void * WBATaskCountOfBytesSentContext = &WBATaskCountOfBytesSentContext;
+static void * WBATaskCountOfBytesReceivedContext = &WBATaskCountOfBytesReceivedContext;
 
 @interface WBAURLConnectionOperation (_UIProgressView)
 @property (readwrite, nonatomic, copy) void (^uploadProgress)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
-@property (readwrite, nonatomic, assign, setter = af_setUploadProgressAnimated:) BOOL af_uploadProgressAnimated;
+@property (readwrite, nonatomic, assign, setter = wba_setUploadProgressAnimated:) BOOL wba_uploadProgressAnimated;
 
 @property (readwrite, nonatomic, copy) void (^downloadProgress)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
-@property (readwrite, nonatomic, assign, setter = af_setDownloadProgressAnimated:) BOOL af_downloadProgressAnimated;
+@property (readwrite, nonatomic, assign, setter = wba_setDownloadProgressAnimated:) BOOL wba_downloadProgressAnimated;
 @end
 
 @implementation WBAURLConnectionOperation (_UIProgressView)
 @dynamic uploadProgress; // Implemented in WBAURLConnectionOperation
-@dynamic af_uploadProgressAnimated;
+@dynamic wba_uploadProgressAnimated;
 
 @dynamic downloadProgress; // Implemented in WBAURLConnectionOperation
-@dynamic af_downloadProgressAnimated;
+@dynamic wba_downloadProgressAnimated;
 @end
 
 #pragma mark -
 
 @implementation UIProgressView (WBANetworking)
 
-- (BOOL)af_uploadProgressAnimated {
-    return [(NSNumber *)objc_getAssociatedObject(self, @selector(af_uploadProgressAnimated)) boolValue];
+- (BOOL)wba_uploadProgressAnimated {
+    return [(NSNumber *)objc_getAssociatedObject(self, @selector(wba_uploadProgressAnimated)) boolValue];
 }
 
-- (void)af_setUploadProgressAnimated:(BOOL)animated {
-    objc_setAssociatedObject(self, @selector(af_uploadProgressAnimated), @(animated), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)wba_setUploadProgressAnimated:(BOOL)animated {
+    objc_setAssociatedObject(self, @selector(wba_uploadProgressAnimated), @(animated), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (BOOL)af_downloadProgressAnimated {
-    return [(NSNumber *)objc_getAssociatedObject(self, @selector(af_downloadProgressAnimated)) boolValue];
+- (BOOL)wba_downloadProgressAnimated {
+    return [(NSNumber *)objc_getAssociatedObject(self, @selector(wba_downloadProgressAnimated)) boolValue];
 }
 
-- (void)af_setDownloadProgressAnimated:(BOOL)animated {
-    objc_setAssociatedObject(self, @selector(af_downloadProgressAnimated), @(animated), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)wba_setDownloadProgressAnimated:(BOOL)animated {
+    objc_setAssociatedObject(self, @selector(wba_downloadProgressAnimated), @(animated), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
@@ -77,19 +77,19 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 - (void)setProgressWithUploadProgressOfTask:(NSURLSessionUploadTask *)task
                                    animated:(BOOL)animated
 {
-    [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesSentContext];
-    [task addObserver:self forKeyPath:@"countOfBytesSent" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesSentContext];
+    [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:WBATaskCountOfBytesSentContext];
+    [task addObserver:self forKeyPath:@"countOfBytesSent" options:(NSKeyValueObservingOptions)0 context:WBATaskCountOfBytesSentContext];
 
-    [self af_setUploadProgressAnimated:animated];
+    [self wba_setUploadProgressAnimated:animated];
 }
 
 - (void)setProgressWithDownloadProgressOfTask:(NSURLSessionDownloadTask *)task
                                      animated:(BOOL)animated
 {
-    [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesReceivedContext];
-    [task addObserver:self forKeyPath:@"countOfBytesReceived" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesReceivedContext];
+    [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:WBATaskCountOfBytesReceivedContext];
+    [task addObserver:self forKeyPath:@"countOfBytesReceived" options:(NSKeyValueObservingOptions)0 context:WBATaskCountOfBytesReceivedContext];
 
-    [self af_setDownloadProgressAnimated:animated];
+    [self wba_setDownloadProgressAnimated:animated];
 }
 #endif
 
@@ -141,11 +141,11 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
                        context:(void *)context
 {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-    if (context == AFTaskCountOfBytesSentContext || context == AFTaskCountOfBytesReceivedContext) {
+    if (context == WBATaskCountOfBytesSentContext || context == WBATaskCountOfBytesReceivedContext) {
         if ([keyPath isEqualToString:NSStringFromSelector(@selector(countOfBytesSent))]) {
             if ([object countOfBytesExpectedToSend] > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self setProgress:[object countOfBytesSent] / ([object countOfBytesExpectedToSend] * 1.0f) animated:self.af_uploadProgressAnimated];
+                    [self setProgress:[object countOfBytesSent] / ([object countOfBytesExpectedToSend] * 1.0f) animated:self.wba_uploadProgressAnimated];
                 });
             }
         }
@@ -153,7 +153,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
         if ([keyPath isEqualToString:NSStringFromSelector(@selector(countOfBytesReceived))]) {
             if ([object countOfBytesExpectedToReceive] > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self setProgress:[object countOfBytesReceived] / ([object countOfBytesExpectedToReceive] * 1.0f) animated:self.af_downloadProgressAnimated];
+                    [self setProgress:[object countOfBytesReceived] / ([object countOfBytesExpectedToReceive] * 1.0f) animated:self.wba_downloadProgressAnimated];
                 });
             }
         }
@@ -163,11 +163,11 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
                 @try {
                     [object removeObserver:self forKeyPath:NSStringFromSelector(@selector(state))];
 
-                    if (context == AFTaskCountOfBytesSentContext) {
+                    if (context == WBATaskCountOfBytesSentContext) {
                         [object removeObserver:self forKeyPath:NSStringFromSelector(@selector(countOfBytesSent))];
                     }
 
-                    if (context == AFTaskCountOfBytesReceivedContext) {
+                    if (context == WBATaskCountOfBytesReceivedContext) {
                         [object removeObserver:self forKeyPath:NSStringFromSelector(@selector(countOfBytesReceived))];
                     }
                 }

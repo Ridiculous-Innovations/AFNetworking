@@ -28,7 +28,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol WBAURLResponseSerialization, AFImageCache;
+@protocol WBAURLResponseSerialization, WBAImageCache;
 
 /**
  This category adds methods to the UIKit framework's `UIButton` class. The methods in this category provide support for loading remote images and background images asynchronously from a URL.
@@ -44,23 +44,23 @@
 /**
  The image cache used to improve image loadiing performance on scroll views. By default, `UIButton` will use the `sharedImageCache` of `UIImageView`.
  */
-+ (id <AFImageCache>)sharedImageCache;
++ (id <WBAImageCache>)sharedImageCache;
 
 /**
  Set the cache used for image loading.
 
  @param imageCache The image cache.
  */
-+ (void)setSharedImageCache:(id <AFImageCache>)imageCache;
++ (void)setSharedImageCache:(id <WBAImageCache>)imageCache;
 
 ///------------------------------------
 /// @name Accessing Response Serializer
 ///------------------------------------
 
 /**
- The response serializer used to create an image representation from the server response and response data. By default, this is an instance of `AFImageResponseSerializer`.
+ The response serializer used to create an image representation from the server response and response data. By default, this is an instance of `WBAImageResponseSerializer`.
 
- @discussion Subclasses of `AFImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/WBANetworking/AFCoreImageSerializer
+ @discussion Subclasses of `WBAImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/WBANetworking/WBACoreImageSerializer
  */
 @property (nonatomic, strong) id <WBAURLResponseSerialization> imageResponseSerializer;
 

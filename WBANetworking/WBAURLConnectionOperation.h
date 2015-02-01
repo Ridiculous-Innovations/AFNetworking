@@ -54,7 +54,7 @@
 
  ## Callbacks and Completion Blocks
 
- The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed after the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `WBAHTTPRequestOperation` subclasses for an example of this.
+ The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed WBATer the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `WBAHTTPRequestOperation` subclasses for an example of this.
 
  Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `WBAURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as ["The Deallocation Problem"](http://developer.apple.com/library/ios/#technotes/tn2109/).
 
@@ -68,7 +68,7 @@
 
  ## App Extensions
 
- When using WBANetworking in an App Extension, `#define AF_APP_EXTENSIONS` to avoid using unavailable APIs.
+ When using WBANetworking in an App Extension, `#define wba_APP_EXTENSIONS` to avoid using unavailable APIs.
 
  ## NSCoding & NSCopying Conformance
 
@@ -248,11 +248,11 @@
 ///----------------------------------------------
 
 /**
- Specifies that the operation should continue execution after the app has entered the background, and the expiration handler for that background task.
+ Specifies that the operation should continue execution WBATer the app has entered the background, and the expiration handler for that background task.
 
  @param handler A handler to be called shortly before the application’s remaining background time reaches 0. The handler is wrapped in a block that cancels the operation, and cleans up and marks the end of execution, unlike the `handler` parameter in `UIApplication -beginBackgroundTaskWithExpirationHandler:`, which expects this to be done in the handler itself. The handler is called synchronously on the main thread, thus blocking the application’s suspension momentarily while the application is notified.
   */
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(wba_APP_EXTENSIONS)
 - (void)setShouldExecuteAsBackgroundTaskWithExpirationHandler:(void (^)(void))handler;
 #endif
 

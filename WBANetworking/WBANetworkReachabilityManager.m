@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger, WBANetworkReachabilityAssociation) {
     WBANetworkReachabilityForName = 3,
 };
 
-NSString * AFStringFromNetworkReachabilityStatus(WBANetworkReachabilityStatus status) {
+NSString * WBAStringFromNetworkReachabilityStatus(WBANetworkReachabilityStatus status) {
     switch (status) {
         case WBANetworkReachabilityStatusNotReachable:
             return NSLocalizedStringFromTable(@"Not Reachable", @"WBANetworking", nil);
@@ -237,7 +237,7 @@ static void WBANetworkReachabilityReleaseCallback(const void *info) {
 #pragma mark -
 
 - (NSString *)localizedNetworkReachabilityStatusString {
-    return AFStringFromNetworkReachabilityStatus(self.networkReachabilityStatus);
+    return WBAStringFromNetworkReachabilityStatus(self.networkReachabilityStatus);
 }
 
 #pragma mark -

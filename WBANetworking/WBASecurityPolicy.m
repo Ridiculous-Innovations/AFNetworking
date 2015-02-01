@@ -25,7 +25,7 @@
 #import <AssertMacros.h>
 
 #if !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-static NSData * AFSecKeyGetData(SecKeyRef key) {
+static NSData * WBASecKeyGetData(SecKeyRef key) {
     CFDataRef data = NULL;
 
     __Require_noErr_Quiet(SecItemExport(key, kSecFormatUnknown, kSecItemPemArmour, NULL, &data), _out);
@@ -41,15 +41,15 @@ _out:
 }
 #endif
 
-static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
+static BOOL WBASecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     return [(__bridge id)key1 isEqual:(__bridge id)key2];
 #else
-    return [AFSecKeyGetData(key1) isEqual:AFSecKeyGetData(key2)];
+    return [WBASecKeyGetData(key1) isEqual:WBASecKeyGetData(key2)];
 #endif
 }
 
-static id AFPublicKeyForCertificate(NSData *certificate) {
+static id WBAPublicKeyForCertificate(NSData *certificate) {
     id allowedPublicKey = nil;
     SecCertificateRef allowedCertificate;
     SecCertificateRef allowedCertificates[1];
@@ -90,7 +90,7 @@ _out:
     return allowedPublicKey;
 }
 
-static BOOL AFServerTrustIsValid(SecTrustRef serverTrust) {
+static BOOL WBAServerTrustIsValid(SecTrustRef serverTrust) {
     BOOL isValid = NO;
     SecTrustResultType result;
     __Require_noErr_Quiet(SecTrustEvaluate(serverTrust, &result), _out);
@@ -101,7 +101,7 @@ _out:
     return isValid;
 }
 
-static NSArray * AFCertificateTrustChainForServerTrust(SecTrustRef serverTrust) {
+static NSArray * WBACertificateTrustChainForServerTrust(SecTrustRef serverTrust) {
     CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
     NSMutableArray *trustChain = [NSMutableArray arrayWithCapacity:(NSUInteger)certificateCount];
 
@@ -113,7 +113,7 @@ static NSArray * AFCertificateTrustChainForServerTrust(SecTrustRef serverTrust) 
     return [NSArray arrayWithArray:trustChain];
 }
 
-static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
+static NSArray * WBAPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     SecPolicyRef policy = SecPolicyCreateBasicX509();
     CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
     NSMutableArray *trustChain = [NSMutableArray arrayWithCapacity:(NSUInteger)certificateCount];
@@ -150,7 +150,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 #pragma mark -
 
 @interface WBASecurityPolicy()
-@property (readwrite, nonatomic, assign) AFSSLPinningMode SSLPinningMode;
+@property (readwrite, nonatomic, assign) WBASSLPinningMode SSLPinningMode;
 @property (readwrite, nonatomic, strong) NSArray *pinnedPublicKeys;
 @end
 
@@ -177,12 +177,12 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 + (instancetype)defaultPolicy {
     WBASecurityPolicy *securityPolicy = [[self alloc] init];
-    securityPolicy.SSLPinningMode = AFSSLPinningModeNone;
+    securityPolicy.SSLPinningMode = WBASSLPinningModeNone;
 
     return securityPolicy;
 }
 
-+ (instancetype)policyWithPinningMode:(AFSSLPinningMode)pinningMode {
++ (instancetype)policyWithPinningMode:(WBASSLPinningMode)pinningMode {
     WBASecurityPolicy *securityPolicy = [[self alloc] init];
     securityPolicy.SSLPinningMode = pinningMode;
 
@@ -204,12 +204,12 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 #pragma mark -
 
-- (void)setSSLPinningMode:(AFSSLPinningMode)SSLPinningMode {
+- (void)setSSLPinningMode:(WBASSLPinningMode)SSLPinningMode {
     _SSLPinningMode = SSLPinningMode;
 
     switch (self.SSLPinningMode) {
-        case AFSSLPinningModePublicKey:
-        case AFSSLPinningModeCertificate:
+        case WBASSLPinningModePublicKey:
+        case WBASSLPinningModeCertificate:
             self.validatesDomainName = YES;
             break;
         default:
@@ -224,7 +224,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     if (self.pinnedCertificates) {
         NSMutableArray *mutablePinnedPublicKeys = [NSMutableArray arrayWithCapacity:[self.pinnedCertificates count]];
         for (NSData *certificate in self.pinnedCertificates) {
-            id publicKey = AFPublicKeyForCertificate(certificate);
+            id publicKey = WBAPublicKeyForCertificate(certificate);
             if (!publicKey) {
                 continue;
             }
@@ -254,22 +254,22 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
     SecTrustSetPolicies(serverTrust, (__bridge CFArrayRef)policies);
 
-    if (self.SSLPinningMode != AFSSLPinningModeNone && !AFServerTrustIsValid(serverTrust) && !self.allowInvalidCertificates) {
+    if (self.SSLPinningMode != WBASSLPinningModeNone && !WBAServerTrustIsValid(serverTrust) && !self.allowInvalidCertificates) {
         return NO;
     }
 
-    NSArray *serverCertificates = AFCertificateTrustChainForServerTrust(serverTrust);
+    NSArray *serverCertificates = WBACertificateTrustChainForServerTrust(serverTrust);
     switch (self.SSLPinningMode) {
-        case AFSSLPinningModeNone:
+        case WBASSLPinningModeNone:
             return YES;
-        case AFSSLPinningModeCertificate: {
+        case WBASSLPinningModeCertificate: {
             NSMutableArray *pinnedCertificates = [NSMutableArray array];
             for (NSData *certificateData in self.pinnedCertificates) {
                 [pinnedCertificates addObject:(__bridge_transfer id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];
             }
             SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef)pinnedCertificates);
 
-            if (!AFServerTrustIsValid(serverTrust)) {
+            if (!WBAServerTrustIsValid(serverTrust)) {
                 return NO;
             }
 
@@ -286,16 +286,16 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
             return trustedCertificateCount == [serverCertificates count];
         }
-        case AFSSLPinningModePublicKey: {
+        case WBASSLPinningModePublicKey: {
             NSUInteger trustedPublicKeyCount = 0;
-            NSArray *publicKeys = AFPublicKeyTrustChainForServerTrust(serverTrust);
+            NSArray *publicKeys = WBAPublicKeyTrustChainForServerTrust(serverTrust);
             if (!self.validatesCertificateChain && [publicKeys count] > 0) {
                 publicKeys = @[[publicKeys firstObject]];
             }
 
             for (id trustChainPublicKey in publicKeys) {
                 for (id pinnedPublicKey in self.pinnedPublicKeys) {
-                    if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
+                    if (WBASecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
                         trustedPublicKeyCount += 1;
                     }
                 }

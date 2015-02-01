@@ -33,7 +33,7 @@ NSString * const WBANetworkingOperationFailingURLRequestErrorKey = @"com.alamofi
 
 typedef NSString * (^AFQueryStringSerializationBlock)(NSURLRequest *request, id parameters, NSError *__autoreleasing *error);
 
-static NSString * AFBase64EncodedStringFromString(NSString *string) {
+static NSString * WBABase64EncodedStringFromString(NSString *string) {
     NSData *data = [NSData dataWithBytes:[string UTF8String] length:[string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     NSUInteger length = [data length];
     NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
@@ -50,28 +50,28 @@ static NSString * AFBase64EncodedStringFromString(NSString *string) {
             }
         }
 
-        static uint8_t const kAFBase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        static uint8_t const kWBABase64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
         NSUInteger idx = (i / 3) * 4;
-        output[idx + 0] = kAFBase64EncodingTable[(value >> 18) & 0x3F];
-        output[idx + 1] = kAFBase64EncodingTable[(value >> 12) & 0x3F];
-        output[idx + 2] = (i + 1) < length ? kAFBase64EncodingTable[(value >> 6)  & 0x3F] : '=';
-        output[idx + 3] = (i + 2) < length ? kAFBase64EncodingTable[(value >> 0)  & 0x3F] : '=';
+        output[idx + 0] = kWBABase64EncodingTable[(value >> 18) & 0x3F];
+        output[idx + 1] = kWBABase64EncodingTable[(value >> 12) & 0x3F];
+        output[idx + 2] = (i + 1) < length ? kWBABase64EncodingTable[(value >> 6)  & 0x3F] : '=';
+        output[idx + 3] = (i + 2) < length ? kWBABase64EncodingTable[(value >> 0)  & 0x3F] : '=';
     }
 
     return [[NSString alloc] initWithData:mutableData encoding:NSASCIIStringEncoding];
 }
 
-static NSString * const kAFCharactersToBeEscapedInQueryString = @":/?&=;+!@#$()',*";
+static NSString * const kWBACharactersToBeEscapedInQueryString = @":/?&=;+!@#$()',*";
 
-static NSString * AFPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
-    static NSString * const kAFCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
+static NSString * WBAPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+    static NSString * const kWBACharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
 
-	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kAFCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kWBACharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kWBACharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
 }
 
-static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
-	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+static NSString * WBAPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kWBACharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
 }
 
 #pragma mark -
@@ -101,9 +101,9 @@ static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSStrin
 
 - (NSString *)URLEncodedStringValueWithEncoding:(NSStringEncoding)stringEncoding {
     if (!self.value || [self.value isEqual:[NSNull null]]) {
-        return AFPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding);
+        return WBAPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding);
     } else {
-        return [NSString stringWithFormat:@"%@=%@", AFPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding), AFPercentEscapedQueryStringValueFromStringWithEncoding([self.value description], stringEncoding)];
+        return [NSString stringWithFormat:@"%@=%@", WBAPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding), WBAPercentEscapedQueryStringValueFromStringWithEncoding([self.value description], stringEncoding)];
     }
 }
 
@@ -160,7 +160,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
 
 #pragma mark -
 
-@interface AFStreamingMultipartFormData : NSObject <AFMultipartFormData>
+@interface WBAStreamingMultipartFormData : NSObject <WBAMultipartFormData>
 - (instancetype)initWithURLRequest:(NSMutableURLRequest *)urlRequest
                     stringEncoding:(NSStringEncoding)encoding;
 
@@ -274,7 +274,7 @@ forHTTPHeaderField:(NSString *)field
                                        password:(NSString *)password
 {
 	NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", username, password];
-    [self setValue:[NSString stringWithFormat:@"Basic %@", AFBase64EncodedStringFromString(basicAuthCredentials)] forHTTPHeaderField:@"Authorization"];
+    [self setValue:[NSString stringWithFormat:@"Basic %@", WBABase64EncodedStringFromString(basicAuthCredentials)] forHTTPHeaderField:@"Authorization"];
 }
 
 - (void)setAuthorizationHeaderFieldWithToken:(NSString *)token {
@@ -334,7 +334,7 @@ forHTTPHeaderField:(NSString *)field
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                              constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block
 {
     return [self multipartFormRequestWithMethod:method URLString:URLString parameters:parameters constructingBodyWithBlock:block error:nil];
 }
@@ -342,7 +342,7 @@ forHTTPHeaderField:(NSString *)field
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
                                               URLString:(NSString *)URLString
                                              parameters:(NSDictionary *)parameters
-                              constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+                              constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block
                                                   error:(NSError *__autoreleasing *)error
 {
     NSParameterAssert(method);
@@ -350,7 +350,7 @@ forHTTPHeaderField:(NSString *)field
 
     NSMutableURLRequest *mutableRequest = [self requestWithMethod:method URLString:URLString parameters:nil error:error];
 
-    __block AFStreamingMultipartFormData *formData = [[AFStreamingMultipartFormData alloc] initWithURLRequest:mutableRequest stringEncoding:NSUTF8StringEncoding];
+    __block WBAStreamingMultipartFormData *formData = [[WBAStreamingMultipartFormData alloc] initWithURLRequest:mutableRequest stringEncoding:NSUTF8StringEncoding];
 
     if (parameters) {
         for (AFQueryStringPair *pair in AFQueryStringPairsFromDictionary(parameters)) {
@@ -542,25 +542,25 @@ forHTTPHeaderField:(NSString *)field
 
 #pragma mark -
 
-static NSString * AFCreateMultipartFormBoundary() {
+static NSString * WBACreateMultipartFormBoundary() {
     return [NSString stringWithFormat:@"Boundary+%08X%08X", arc4random(), arc4random()];
 }
 
-static NSString * const kAFMultipartFormCRLF = @"\r\n";
+static NSString * const kWBAMultipartFormCRLF = @"\r\n";
 
-static inline NSString * AFMultipartFormInitialBoundary(NSString *boundary) {
-    return [NSString stringWithFormat:@"--%@%@", boundary, kAFMultipartFormCRLF];
+static inline NSString * WBAMultipartFormInitialBoundary(NSString *boundary) {
+    return [NSString stringWithFormat:@"--%@%@", boundary, kWBAMultipartFormCRLF];
 }
 
-static inline NSString * AFMultipartFormEncapsulationBoundary(NSString *boundary) {
-    return [NSString stringWithFormat:@"%@--%@%@", kAFMultipartFormCRLF, boundary, kAFMultipartFormCRLF];
+static inline NSString * WBAMultipartFormEncapsulationBoundary(NSString *boundary) {
+    return [NSString stringWithFormat:@"%@--%@%@", kWBAMultipartFormCRLF, boundary, kWBAMultipartFormCRLF];
 }
 
-static inline NSString * AFMultipartFormFinalBoundary(NSString *boundary) {
-    return [NSString stringWithFormat:@"%@--%@--%@", kAFMultipartFormCRLF, boundary, kAFMultipartFormCRLF];
+static inline NSString * WBAMultipartFormFinalBoundary(NSString *boundary) {
+    return [NSString stringWithFormat:@"%@--%@--%@", kWBAMultipartFormCRLF, boundary, kWBAMultipartFormCRLF];
 }
 
-static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
+static inline NSString * WBAContentTypeForPathExtension(NSString *extension) {
 #ifdef __UTTYPE__
     NSString *UTI = (__bridge_transfer NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, NULL);
     NSString *contentType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassMIMEType);
@@ -596,7 +596,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
         maxLength:(NSUInteger)length;
 @end
 
-@interface AFMultipartBodyStream : NSInputStream <NSStreamDelegate>
+@interface WBAMultipartBodyStream : NSInputStream <NSStreamDelegate>
 @property (nonatomic, assign) NSUInteger numberOfBytesInPacket;
 @property (nonatomic, assign) NSTimeInterval delay;
 @property (nonatomic, strong) NSInputStream *inputStream;
@@ -610,14 +610,14 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 
 #pragma mark -
 
-@interface AFStreamingMultipartFormData ()
+@interface WBAStreamingMultipartFormData ()
 @property (readwrite, nonatomic, copy) NSMutableURLRequest *request;
 @property (readwrite, nonatomic, assign) NSStringEncoding stringEncoding;
 @property (readwrite, nonatomic, copy) NSString *boundary;
-@property (readwrite, nonatomic, strong) AFMultipartBodyStream *bodyStream;
+@property (readwrite, nonatomic, strong) WBAMultipartBodyStream *bodyStream;
 @end
 
-@implementation AFStreamingMultipartFormData
+@implementation WBAStreamingMultipartFormData
 
 - (id)initWithURLRequest:(NSMutableURLRequest *)urlRequest
           stringEncoding:(NSStringEncoding)encoding
@@ -629,8 +629,8 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 
     self.request = urlRequest;
     self.stringEncoding = encoding;
-    self.boundary = AFCreateMultipartFormBoundary();
-    self.bodyStream = [[AFMultipartBodyStream alloc] initWithStringEncoding:encoding];
+    self.boundary = WBACreateMultipartFormBoundary();
+    self.bodyStream = [[WBAMultipartBodyStream alloc] initWithStringEncoding:encoding];
 
     return self;
 }
@@ -643,7 +643,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
     NSParameterAssert(name);
 
     NSString *fileName = [fileURL lastPathComponent];
-    NSString *mimeType = AFContentTypeForPathExtension([fileURL pathExtension]);
+    NSString *mimeType = WBAContentTypeForPathExtension([fileURL pathExtension]);
 
     return [self appendPartWithFileURL:fileURL name:name fileName:fileName mimeType:mimeType error:error];
 }
@@ -793,7 +793,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 @property (readwrite, copy) NSError *streamError;
 @end
 
-@interface AFMultipartBodyStream () <NSCopying>
+@interface WBAMultipartBodyStream () <NSCopying>
 @property (readwrite, nonatomic, assign) NSStringEncoding stringEncoding;
 @property (readwrite, nonatomic, strong) NSMutableArray *HTTPBodyParts;
 @property (readwrite, nonatomic, strong) NSEnumerator *HTTPBodyPartEnumerator;
@@ -802,7 +802,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 @property (readwrite, nonatomic, strong) NSMutableData *buffer;
 @end
 
-@implementation AFMultipartBodyStream
+@implementation WBAMultipartBodyStream
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-atomic-properties"
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1100)
@@ -956,7 +956,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 #pragma mark - NSCopying
 
 -(id)copyWithZone:(NSZone *)zone {
-    AFMultipartBodyStream *bodyStreamCopy = [[[self class] allocWithZone:zone] initWithStringEncoding:self.stringEncoding];
+    WBAMultipartBodyStream *bodyStreamCopy = [[[self class] allocWithZone:zone] initWithStringEncoding:self.stringEncoding];
 
     for (WBAHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
         [bodyStreamCopy appendHTTPBodyPart:[bodyPart copy]];
@@ -974,7 +974,7 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 typedef enum {
     AFEncapsulationBoundaryPhase = 1,
     WBAHeaderPhase                = 2,
-    AFBodyPhase                  = 3,
+    WBABodyPhase                  = 3,
     AFFinalBoundaryPhase         = 4,
 } WBAHTTPBodyPartReadPhase;
 
@@ -1029,9 +1029,9 @@ typedef enum {
 - (NSString *)stringForHeaders {
     NSMutableString *headerString = [NSMutableString string];
     for (NSString *field in [self.headers allKeys]) {
-        [headerString appendString:[NSString stringWithFormat:@"%@: %@%@", field, [self.headers valueForKey:field], kAFMultipartFormCRLF]];
+        [headerString appendString:[NSString stringWithFormat:@"%@: %@%@", field, [self.headers valueForKey:field], kWBAMultipartFormCRLF]];
     }
-    [headerString appendString:kAFMultipartFormCRLF];
+    [headerString appendString:kWBAMultipartFormCRLF];
 
     return [NSString stringWithString:headerString];
 }
@@ -1039,7 +1039,7 @@ typedef enum {
 - (unsigned long long)contentLength {
     unsigned long long length = 0;
 
-    NSData *encapsulationBoundaryData = [([self hasInitialBoundary] ? AFMultipartFormInitialBoundary(self.boundary) : AFMultipartFormEncapsulationBoundary(self.boundary)) dataUsingEncoding:self.stringEncoding];
+    NSData *encapsulationBoundaryData = [([self hasInitialBoundary] ? WBAMultipartFormInitialBoundary(self.boundary) : WBAMultipartFormEncapsulationBoundary(self.boundary)) dataUsingEncoding:self.stringEncoding];
     length += [encapsulationBoundaryData length];
 
     NSData *headersData = [[self stringForHeaders] dataUsingEncoding:self.stringEncoding];
@@ -1047,14 +1047,14 @@ typedef enum {
 
     length += _bodyContentLength;
 
-    NSData *closingBoundaryData = ([self hasFinalBoundary] ? [AFMultipartFormFinalBoundary(self.boundary) dataUsingEncoding:self.stringEncoding] : [NSData data]);
+    NSData *closingBoundaryData = ([self hasFinalBoundary] ? [WBAMultipartFormFinalBoundary(self.boundary) dataUsingEncoding:self.stringEncoding] : [NSData data]);
     length += [closingBoundaryData length];
 
     return length;
 }
 
 - (BOOL)hasBytesAvailable {
-    // Allows `read:maxLength:` to be called again if `AFMultipartFormFinalBoundary` doesn't fit into the available buffer
+    // Allows `read:maxLength:` to be called again if `WBAMultipartFormFinalBoundary` doesn't fit into the available buffer
     if (_phase == AFFinalBoundaryPhase) {
         return YES;
     }
@@ -1083,7 +1083,7 @@ typedef enum {
     NSInteger totalNumberOfBytesRead = 0;
 
     if (_phase == AFEncapsulationBoundaryPhase) {
-        NSData *encapsulationBoundaryData = [([self hasInitialBoundary] ? AFMultipartFormInitialBoundary(self.boundary) : AFMultipartFormEncapsulationBoundary(self.boundary)) dataUsingEncoding:self.stringEncoding];
+        NSData *encapsulationBoundaryData = [([self hasInitialBoundary] ? WBAMultipartFormInitialBoundary(self.boundary) : WBAMultipartFormEncapsulationBoundary(self.boundary)) dataUsingEncoding:self.stringEncoding];
         totalNumberOfBytesRead += [self readData:encapsulationBoundaryData intoBuffer:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
     }
 
@@ -1092,7 +1092,7 @@ typedef enum {
         totalNumberOfBytesRead += [self readData:headersData intoBuffer:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
     }
 
-    if (_phase == AFBodyPhase) {
+    if (_phase == WBABodyPhase) {
         NSInteger numberOfBytesRead = 0;
 
         numberOfBytesRead = [self.inputStream read:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
@@ -1108,7 +1108,7 @@ typedef enum {
     }
 
     if (_phase == AFFinalBoundaryPhase) {
-        NSData *closingBoundaryData = ([self hasFinalBoundary] ? [AFMultipartFormFinalBoundary(self.boundary) dataUsingEncoding:self.stringEncoding] : [NSData data]);
+        NSData *closingBoundaryData = ([self hasFinalBoundary] ? [WBAMultipartFormFinalBoundary(self.boundary) dataUsingEncoding:self.stringEncoding] : [NSData data]);
         totalNumberOfBytesRead += [self readData:closingBoundaryData intoBuffer:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
     }
 
@@ -1151,9 +1151,9 @@ typedef enum {
         case WBAHeaderPhase:
             [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
             [self.inputStream open];
-            _phase = AFBodyPhase;
+            _phase = WBABodyPhase;
             break;
-        case AFBodyPhase:
+        case WBABodyPhase:
             [self.inputStream close];
             _phase = AFFinalBoundaryPhase;
             break;
@@ -1263,7 +1263,7 @@ typedef enum {
 
 #pragma mark -
 
-@implementation AFPropertyListRequestSerializer
+@implementation WBAPropertyListRequestSerializer
 
 + (instancetype)serializer {
     return [self serializerWithFormat:NSPropertyListXMLFormat_v1_0 writeOptions:0];
@@ -1272,7 +1272,7 @@ typedef enum {
 + (instancetype)serializerWithFormat:(NSPropertyListFormat)format
                         writeOptions:(NSPropertyListWriteOptions)writeOptions
 {
-    AFPropertyListRequestSerializer *serializer = [[self alloc] init];
+    WBAPropertyListRequestSerializer *serializer = [[self alloc] init];
     serializer.format = format;
     serializer.writeOptions = writeOptions;
 
@@ -1334,7 +1334,7 @@ typedef enum {
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFPropertyListRequestSerializer *serializer = [super copyWithZone:zone];
+    WBAPropertyListRequestSerializer *serializer = [super copyWithZone:zone];
     serializer.format = self.format;
     serializer.writeOptions = self.writeOptions;
 

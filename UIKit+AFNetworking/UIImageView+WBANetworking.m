@@ -28,34 +28,34 @@
 
 #import "WBAHTTPRequestOperation.h"
 
-@interface AFImageCache : NSCache <AFImageCache>
+@interface WBAImageCache : NSCache <WBAImageCache>
 @end
 
 #pragma mark -
 
 @interface UIImageView (_WBANetworking)
-@property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) WBAHTTPRequestOperation *af_imageRequestOperation;
+@property (readwrite, nonatomic, strong, setter = wba_setImageRequestOperation:) WBAHTTPRequestOperation *wba_imageRequestOperation;
 @end
 
 @implementation UIImageView (_WBANetworking)
 
-+ (NSOperationQueue *)af_sharedImageRequestOperationQueue {
-    static NSOperationQueue *_af_sharedImageRequestOperationQueue = nil;
++ (NSOperationQueue *)wba_sharedImageRequestOperationQueue {
+    static NSOperationQueue *_wba_sharedImageRequestOperationQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_sharedImageRequestOperationQueue = [[NSOperationQueue alloc] init];
-        _af_sharedImageRequestOperationQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+        _wba_sharedImageRequestOperationQueue = [[NSOperationQueue alloc] init];
+        _wba_sharedImageRequestOperationQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
     });
 
-    return _af_sharedImageRequestOperationQueue;
+    return _wba_sharedImageRequestOperationQueue;
 }
 
-- (WBAHTTPRequestOperation *)af_imageRequestOperation {
-    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_imageRequestOperation));
+- (WBAHTTPRequestOperation *)wba_imageRequestOperation {
+    return (WBAHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(wba_imageRequestOperation));
 }
 
-- (void)af_setImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation {
-    objc_setAssociatedObject(self, @selector(af_imageRequestOperation), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)wba_setImageRequestOperation:(WBAHTTPRequestOperation *)imageRequestOperation {
+    objc_setAssociatedObject(self, @selector(wba_imageRequestOperation), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -65,39 +65,39 @@
 @implementation UIImageView (WBANetworking)
 @dynamic imageResponseSerializer;
 
-+ (id <AFImageCache>)sharedImageCache {
-    static AFImageCache *_af_defaultImageCache = nil;
++ (id <WBAImageCache>)sharedImageCache {
+    static WBAImageCache *_wba_defaultImageCache = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
-        _af_defaultImageCache = [[AFImageCache alloc] init];
+        _wba_defaultImageCache = [[WBAImageCache alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * __unused notification) {
-            [_af_defaultImageCache removeAllObjects];
+            [_wba_defaultImageCache removeAllObjects];
         }];
     });
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(sharedImageCache)) ?: _af_defaultImageCache;
+    return objc_getAssociatedObject(self, @selector(sharedImageCache)) ?: _wba_defaultImageCache;
 #pragma clang diagnostic pop
 }
 
-+ (void)setSharedImageCache:(id <AFImageCache>)imageCache {
++ (void)setSharedImageCache:(id <WBAImageCache>)imageCache {
     objc_setAssociatedObject(self, @selector(sharedImageCache), imageCache, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
 - (id <WBAURLResponseSerialization>)imageResponseSerializer {
-    static id <WBAURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
+    static id <WBAURLResponseSerialization> _wba_defaultImageResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
+        _wba_defaultImageResponseSerializer = [WBAImageResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(imageResponseSerializer)) ?: _af_defaultImageResponseSerializer;
+    return objc_getAssociatedObject(self, @selector(imageResponseSerializer)) ?: _wba_defaultImageResponseSerializer;
 #pragma clang diagnostic pop
 }
 
@@ -135,61 +135,61 @@
             self.image = cachedImage;
         }
 
-        self.af_imageRequestOperation = nil;
+        self.wba_imageRequestOperation = nil;
     } else {
         if (placeholderImage) {
             self.image = placeholderImage;
         }
 
         __weak __typeof(self)weakSelf = self;
-        self.af_imageRequestOperation = [[WBAHTTPRequestOperation alloc] initWithRequest:urlRequest];
-        self.af_imageRequestOperation.responseSerializer = self.imageResponseSerializer;
-        [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id responseObject) {
+        self.wba_imageRequestOperation = [[WBAHTTPRequestOperation alloc] initWithRequest:urlRequest];
+        self.wba_imageRequestOperation.responseSerializer = self.imageResponseSerializer;
+        [self.wba_imageRequestOperation setCompletionBlockWithSuccess:^(WBAHTTPRequestOperation *operation, id responseObject) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
+            if ([[urlRequest URL] isEqual:[strongSelf.wba_imageRequestOperation.request URL]]) {
                 if (success) {
                     success(urlRequest, operation.response, responseObject);
                 } else if (responseObject) {
                     strongSelf.image = responseObject;
                 }
 
-                if (operation == strongSelf.af_imageRequestOperation){
-                        strongSelf.af_imageRequestOperation = nil;
+                if (operation == strongSelf.wba_imageRequestOperation){
+                        strongSelf.wba_imageRequestOperation = nil;
                 }
             }
 
             [[[strongSelf class] sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
         } failure:^(WBAHTTPRequestOperation *operation, NSError *error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
+            if ([[urlRequest URL] isEqual:[strongSelf.wba_imageRequestOperation.request URL]]) {
                 if (failure) {
                     failure(urlRequest, operation.response, error);
                 }
 
-                if (operation == strongSelf.af_imageRequestOperation){
-                        strongSelf.af_imageRequestOperation = nil;
+                if (operation == strongSelf.wba_imageRequestOperation){
+                        strongSelf.wba_imageRequestOperation = nil;
                 }
             }
         }];
 
-        [[[self class] af_sharedImageRequestOperationQueue] addOperation:self.af_imageRequestOperation];
+        [[[self class] wba_sharedImageRequestOperationQueue] addOperation:self.wba_imageRequestOperation];
     }
 }
 
 - (void)cancelImageRequestOperation {
-    [self.af_imageRequestOperation cancel];
-    self.af_imageRequestOperation = nil;
+    [self.wba_imageRequestOperation cancel];
+    self.wba_imageRequestOperation = nil;
 }
 
 @end
 
 #pragma mark -
 
-static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
+static inline NSString * WBAImageCacheKeyFromURLRequest(NSURLRequest *request) {
     return [[request URL] absoluteString];
 }
 
-@implementation AFImageCache
+@implementation WBAImageCache
 
 - (UIImage *)cachedImageForRequest:(NSURLRequest *)request {
     switch ([request cachePolicy]) {
@@ -200,14 +200,14 @@ static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
             break;
     }
 
-	return [self objectForKey:AFImageCacheKeyFromURLRequest(request)];
+	return [self objectForKey:WBAImageCacheKeyFromURLRequest(request)];
 }
 
 - (void)cacheImage:(UIImage *)image
         forRequest:(NSURLRequest *)request
 {
     if (image && request) {
-        [self setObject:image forKey:AFImageCacheKeyFromURLRequest(request)];
+        [self setObject:image forKey:WBAImageCacheKeyFromURLRequest(request)];
     }
 }
 

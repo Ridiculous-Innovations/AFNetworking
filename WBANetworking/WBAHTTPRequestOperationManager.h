@@ -247,7 +247,7 @@
 
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded according to the client request serializer.
- @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `AFMultipartFormData` protocol.
+ @param block A block that takes a single argument and appends data to the HTTP body. The block argument is an object adopting the `WBAMultipartFormData` protocol.
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a two arguments: the request operation and the error describing the network or parsing error that occurred.
 
@@ -255,7 +255,7 @@
  */
 - (WBAHTTPRequestOperation *)POST:(NSString *)URLString
                       parameters:(id)parameters
-       constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+       constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block
                          success:(void (^)(WBAHTTPRequestOperation *operation, id responseObject))success
                          failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure;
 

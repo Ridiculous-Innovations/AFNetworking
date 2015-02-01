@@ -31,37 +31,37 @@
 // You can turn on ARC for only WBANetworking files by adding -fobjc-arc to the build phase for each of its files.
 #endif
 
-typedef NS_ENUM(NSInteger, AFOperationState) {
-    AFOperationPausedState      = -1,
-    AFOperationReadyState       = 1,
-    AFOperationExecutingState   = 2,
-    AFOperationFinishedState    = 3,
+typedef NS_ENUM(NSInteger, WBAOperationState) {
+    WBAOperationPausedState      = -1,
+    WBAOperationReadyState       = 1,
+    WBAOperationExecutingState   = 2,
+    WBAOperationFinishedState    = 3,
 };
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
-typedef UIBackgroundTaskIdentifier AFBackgroundTaskIdentifier;
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(wba_APP_EXTENSIONS)
+typedef UIBackgroundTaskIdentifier WBABackgroundTaskIdentifier;
 #else
-typedef id AFBackgroundTaskIdentifier;
+typedef id WBABackgroundTaskIdentifier;
 #endif
 
 static dispatch_group_t url_request_operation_completion_group() {
-    static dispatch_group_t af_url_request_operation_completion_group;
+    static dispatch_group_t wba_url_request_operation_completion_group;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_url_request_operation_completion_group = dispatch_group_create();
+        wba_url_request_operation_completion_group = dispatch_group_create();
     });
 
-    return af_url_request_operation_completion_group;
+    return wba_url_request_operation_completion_group;
 }
 
 static dispatch_queue_t url_request_operation_completion_queue() {
-    static dispatch_queue_t af_url_request_operation_completion_queue;
+    static dispatch_queue_t wba_url_request_operation_completion_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        af_url_request_operation_completion_queue = dispatch_queue_create("com.alamofire.networking.operation.queue", DISPATCH_QUEUE_CONCURRENT );
+        wba_url_request_operation_completion_queue = dispatch_queue_create("com.alamofire.networking.operation.queue", DISPATCH_QUEUE_CONCURRENT );
     });
 
-    return af_url_request_operation_completion_queue;
+    return wba_url_request_operation_completion_queue;
 }
 
 static NSString * const kWBANetworkingLockName = @"com.alamofire.networking.operation.lock";
@@ -74,15 +74,15 @@ typedef void (^WBAURLConnectionOperationAuthenticationChallengeBlock)(NSURLConne
 typedef NSCachedURLResponse * (^WBAURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
 typedef NSURLRequest * (^WBAURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
 
-static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
+static inline NSString * WBAKeyPathFromOperationState(WBAOperationState state) {
     switch (state) {
-        case AFOperationReadyState:
+        case WBAOperationReadyState:
             return @"isReady";
-        case AFOperationExecutingState:
+        case WBAOperationExecutingState:
             return @"isExecuting";
-        case AFOperationFinishedState:
+        case WBAOperationFinishedState:
             return @"isFinished";
-        case AFOperationPausedState:
+        case WBAOperationPausedState:
             return @"isPaused";
         default: {
 #pragma clang diagnostic push
@@ -93,38 +93,38 @@ static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
     }
 }
 
-static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperationState toState, BOOL isCancelled) {
+static inline BOOL WBAStateTransitionIsValid(WBAOperationState fromState, WBAOperationState toState, BOOL isCancelled) {
     switch (fromState) {
-        case AFOperationReadyState:
+        case WBAOperationReadyState:
             switch (toState) {
-                case AFOperationPausedState:
-                case AFOperationExecutingState:
+                case WBAOperationPausedState:
+                case WBAOperationExecutingState:
                     return YES;
-                case AFOperationFinishedState:
+                case WBAOperationFinishedState:
                     return isCancelled;
                 default:
                     return NO;
             }
-        case AFOperationExecutingState:
+        case WBAOperationExecutingState:
             switch (toState) {
-                case AFOperationPausedState:
-                case AFOperationFinishedState:
+                case WBAOperationPausedState:
+                case WBAOperationFinishedState:
                     return YES;
                 default:
                     return NO;
             }
-        case AFOperationFinishedState:
+        case WBAOperationFinishedState:
             return NO;
-        case AFOperationPausedState:
-            return toState == AFOperationReadyState;
+        case WBAOperationPausedState:
+            return toState == WBAOperationReadyState;
         default: {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
             switch (toState) {
-                case AFOperationPausedState:
-                case AFOperationReadyState:
-                case AFOperationExecutingState:
-                case AFOperationFinishedState:
+                case WBAOperationPausedState:
+                case WBAOperationReadyState:
+                case WBAOperationExecutingState:
+                case WBAOperationFinishedState:
                     return YES;
                 default:
                     return NO;
@@ -135,7 +135,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 }
 
 @interface WBAURLConnectionOperation ()
-@property (readwrite, nonatomic, assign) AFOperationState state;
+@property (readwrite, nonatomic, assign) WBAOperationState state;
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
 @property (readwrite, nonatomic, strong) NSURLConnection *connection;
 @property (readwrite, nonatomic, strong) NSURLRequest *request;
@@ -145,7 +145,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 @property (readwrite, nonatomic, copy) NSString *responseString;
 @property (readwrite, nonatomic, assign) NSStringEncoding responseStringEncoding;
 @property (readwrite, nonatomic, assign) long long totalBytesRead;
-@property (readwrite, nonatomic, assign) AFBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (readwrite, nonatomic, assign) WBABackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (readwrite, nonatomic, copy) WBAURLConnectionOperationProgressBlock uploadProgress;
 @property (readwrite, nonatomic, copy) WBAURLConnectionOperationProgressBlock downloadProgress;
 @property (readwrite, nonatomic, copy) WBAURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
@@ -189,7 +189,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 		return nil;
     }
 
-    _state = AFOperationReadyState;
+    _state = WBAOperationReadyState;
 
     self.lock = [[NSRecursiveLock alloc] init];
     self.lock.name = kWBANetworkingLockName;
@@ -211,7 +211,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         _outputStream = nil;
     }
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(wba_APP_EXTENSIONS)
     if (_backgroundTaskIdentifier) {
         [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
         _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
@@ -289,7 +289,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     [self.lock unlock];
 }
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(wba_APP_EXTENSIONS)
 - (void)setShouldExecuteAsBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
     [self.lock lock];
     if (!self.backgroundTaskIdentifier) {
@@ -316,14 +316,14 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
 #pragma mark -
 
-- (void)setState:(AFOperationState)state {
-    if (!AFStateTransitionIsValid(self.state, state, [self isCancelled])) {
+- (void)setState:(WBAOperationState)state {
+    if (!WBAStateTransitionIsValid(self.state, state, [self isCancelled])) {
         return;
     }
 
     [self.lock lock];
-    NSString *oldStateKey = AFKeyPathFromOperationState(self.state);
-    NSString *newStateKey = AFKeyPathFromOperationState(state);
+    NSString *oldStateKey = WBAKeyPathFromOperationState(self.state);
+    NSString *newStateKey = WBAKeyPathFromOperationState(state);
 
     [self willChangeValueForKey:newStateKey];
     [self willChangeValueForKey:oldStateKey];
@@ -348,7 +348,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         });
     }
 
-    self.state = AFOperationPausedState;
+    self.state = WBAOperationPausedState;
     [self.lock unlock];
 }
 
@@ -359,7 +359,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 }
 
 - (BOOL)isPaused {
-    return self.state == AFOperationPausedState;
+    return self.state == WBAOperationPausedState;
 }
 
 - (void)resume {
@@ -368,7 +368,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     }
 
     [self.lock lock];
-    self.state = AFOperationReadyState;
+    self.state = WBAOperationReadyState;
 
     [self start];
     [self.lock unlock];
@@ -426,15 +426,15 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 }
 
 - (BOOL)isReady {
-    return self.state == AFOperationReadyState && [super isReady];
+    return self.state == WBAOperationReadyState && [super isReady];
 }
 
 - (BOOL)isExecuting {
-    return self.state == AFOperationExecutingState;
+    return self.state == WBAOperationExecutingState;
 }
 
 - (BOOL)isFinished {
-    return self.state == AFOperationFinishedState;
+    return self.state == WBAOperationFinishedState;
 }
 
 - (BOOL)isConcurrent {
@@ -446,7 +446,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     if ([self isCancelled]) {
         [self performSelector:@selector(cancelConnection) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
     } else if ([self isReady]) {
-        self.state = AFOperationExecutingState;
+        self.state = WBAOperationExecutingState;
 
         [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
     }
@@ -476,7 +476,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
 - (void)finish {
     [self.lock lock];
-    self.state = AFOperationFinishedState;
+    self.state = WBAOperationFinishedState;
     [self.lock unlock];
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -578,7 +578,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
 - (NSString *)description {
     [self.lock lock];
-    NSString *description = [NSString stringWithFormat:@"<%@: %p, state: %@, cancelled: %@ request: %@, response: %@>", NSStringFromClass([self class]), self, AFKeyPathFromOperationState(self.state), ([self isCancelled] ? @"YES" : @"NO"), self.request, self.response];
+    NSString *description = [NSString stringWithFormat:@"<%@: %p, state: %@, cancelled: %@ request: %@, response: %@>", NSStringFromClass([self class]), self, WBAKeyPathFromOperationState(self.state), ([self isCancelled] ? @"YES" : @"NO"), self.request, self.response];
     [self.lock unlock];
     return description;
 }
@@ -755,9 +755,9 @@ didReceiveResponse:(NSURLResponse *)response
     [coder encodeObject:self.request forKey:NSStringFromSelector(@selector(request))];
 
     switch (self.state) {
-        case AFOperationExecutingState:
-        case AFOperationPausedState:
-            [coder encodeInteger:AFOperationReadyState forKey:NSStringFromSelector(@selector(state))];
+        case WBAOperationExecutingState:
+        case WBAOperationPausedState:
+            [coder encodeInteger:WBAOperationReadyState forKey:NSStringFromSelector(@selector(state))];
             break;
         default:
             [coder encodeInteger:self.state forKey:NSStringFromSelector(@selector(state))];

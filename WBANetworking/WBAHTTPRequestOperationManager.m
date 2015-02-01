@@ -177,7 +177,7 @@
 
 - (WBAHTTPRequestOperation *)POST:(NSString *)URLString
                       parameters:(id)parameters
-       constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+       constructingBodyWithBlock:(void (^)(id <WBAMultipartFormData> formData))block
                          success:(void (^)(WBAHTTPRequestOperation *operation, id responseObject))success
                          failure:(void (^)(WBAHTTPRequestOperation *operation, NSError *error))failure
 {
