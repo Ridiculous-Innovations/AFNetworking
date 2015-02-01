@@ -1,4 +1,4 @@
-// AFHTTPSessionManager.h
+// WBAHTTPSessionManager.h
 //
 // Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
@@ -33,11 +33,11 @@
 #import "AFURLSessionManager.h"
 
 /**
- `AFHTTPSessionManager` is a subclass of `AFURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths.
+ `WBAHTTPSessionManager` is a subclass of `AFURLSessionManager` with convenience methods for making HTTP requests. When a `baseURL` is provided, requests made with the `GET` / `POST` / et al. convenience methods can be made with relative paths.
 
  ## Subclassing Notes
 
- Developers targeting iOS 7 or Mac OS X 10.9 or later that deal extensively with a web service are encouraged to subclass `AFHTTPSessionManager`, providing a class method that returns a shared singleton object on which authentication and other configuration can be shared across the application.
+ Developers targeting iOS 7 or Mac OS X 10.9 or later that deal extensively with a web service are encouraged to subclass `WBAHTTPSessionManager`, providing a class method that returns a shared singleton object on which authentication and other configuration can be shared across the application.
 
  For developers targeting iOS 6 or Mac OS X 10.8 or earlier, `WBAHTTPRequestOperationManager` may be used to similar effect.
 
@@ -72,7 +72,7 @@
 
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000) || (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090)
 
-@interface AFHTTPSessionManager : AFURLSessionManager <NSSecureCoding, NSCopying>
+@interface WBAHTTPSessionManager : AFURLSessionManager <NSSecureCoding, NSCopying>
 
 /**
  The URL used to monitor reachability, and construct requests from relative paths in methods like `requestWithMethod:URLString:parameters:`, and the `GET` / `POST` / et al. convenience methods.
@@ -98,12 +98,12 @@
 ///---------------------
 
 /**
- Creates and returns an `AFHTTPSessionManager` object.
+ Creates and returns an `WBAHTTPSessionManager` object.
  */
 + (instancetype)manager;
 
 /**
- Initializes an `AFHTTPSessionManager` object with the specified base URL.
+ Initializes an `WBAHTTPSessionManager` object with the specified base URL.
 
  @param url The base URL for the HTTP client.
 
@@ -112,7 +112,7 @@
 - (instancetype)initWithBaseURL:(NSURL *)url;
 
 /**
- Initializes an `AFHTTPSessionManager` object with the specified base URL.
+ Initializes an `WBAHTTPSessionManager` object with the specified base URL.
 
  This is the designated initializer.
 

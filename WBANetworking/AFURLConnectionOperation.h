@@ -25,7 +25,7 @@
 #import <Availability.h>
 #import "AFURLRequestSerialization.h"
 #import "AFURLResponseSerialization.h"
-#import "AFSecurityPolicy.h"
+#import "WBASecurityPolicy.h"
 
 /**
  `AFURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
@@ -162,7 +162,7 @@
 /**
  The security policy used to evaluate server trust for secure connections.
  */
-@property (nonatomic, strong) AFSecurityPolicy *securityPolicy;
+@property (nonatomic, strong) WBASecurityPolicy *securityPolicy;
 
 ///------------------------
 /// @name Accessing Streams

@@ -59,7 +59,7 @@ pod "AFNetworking", "~> 2.0"
 ### NSURLSession _(iOS 7 / Mac OS X 10.9)_
 
 - `AFURLSessionManager`
-- `AFHTTPSessionManager`
+- `WBAHTTPSessionManager`
 
 ### Serialization
 
@@ -78,8 +78,8 @@ pod "AFNetworking", "~> 2.0"
 
 ### Additional Functionality
 
-- `AFSecurityPolicy`
-- `AFNetworkReachabilityManager`
+- `WBASecurityPolicy`
+- `WBANetworkReachabilityManager`
 
 ## Usage
 
@@ -254,14 +254,14 @@ NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
 
 ### Network Reachability Manager
 
-`AFNetworkReachabilityManager` monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.
+`WBANetworkReachabilityManager` monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.
 
 **Network reachability is a diagnostic tool that can be used to understand why a request might have failed. It should not be used to determine whether or not to make a request.**
 
 #### Shared Network Reachability
 
 ```objective-c
-[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+[[WBANetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
     NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
 }];
 ```
@@ -293,7 +293,7 @@ NSOperationQueue *operationQueue = manager.operationQueue;
 
 ### Security Policy
 
-`AFSecurityPolicy` evaluates server trust against pinned X.509 certificates and public keys over secure connections.
+`WBASecurityPolicy` evaluates server trust against pinned X.509 certificates and public keys over secure connections.
 
 Adding pinned SSL certificates to your app helps prevent man-in-the-middle attacks and other vulnerabilities. Applications dealing with sensitive customer data or financial information are strongly encouraged to route all communication over an HTTPS connection with SSL pinning configured and enabled.
 
