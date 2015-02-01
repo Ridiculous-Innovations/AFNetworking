@@ -310,7 +310,7 @@ static NSArray * WBAPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
 #pragma mark - NSKeyValueObserving
 
-+ (NSSet *)keyPathsForValuesAffectingPinnedPublicKeys {
++ (NSSet *)keyPathsForValuesWBAFectingPinnedPublicKeys {
     return [NSSet setWithObject:@"pinnedCertificates"];
 }
 

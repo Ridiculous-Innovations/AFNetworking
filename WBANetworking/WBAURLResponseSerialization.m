@@ -32,7 +32,7 @@ NSString * const WBAURLResponseSerializationErrorDomain = @"com.alamofire.error.
 NSString * const WBANetworkingOperationFailingURLResponseErrorKey = @"com.alamofire.serialization.response.error.response";
 NSString * const WBANetworkingOperationFailingURLResponseDataErrorKey = @"com.alamofire.serialization.response.error.data";
 
-static NSError * AFErrorWithUnderlyingError(NSError *error, NSError *underlyingError) {
+static NSError * WBAErrorWithUnderlyingError(NSError *error, NSError *underlyingError) {
     if (!error) {
         return underlyingError;
     }
@@ -47,11 +47,11 @@ static NSError * AFErrorWithUnderlyingError(NSError *error, NSError *underlyingE
     return [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:mutableUserInfo];
 }
 
-static BOOL AFErrorOrUnderlyingErrorHasCodeInDomain(NSError *error, NSInteger code, NSString *domain) {
+static BOOL WBAErrorOrUnderlyingErrorHasCodeInDomain(NSError *error, NSInteger code, NSString *domain) {
     if ([error.domain isEqualToString:domain] && error.code == code) {
         return YES;
     } else if (error.userInfo[NSUnderlyingErrorKey]) {
-        return AFErrorOrUnderlyingErrorHasCodeInDomain(error.userInfo[NSUnderlyingErrorKey], code, domain);
+        return WBAErrorOrUnderlyingErrorHasCodeInDomain(error.userInfo[NSUnderlyingErrorKey], code, domain);
     }
 
     return NO;
@@ -123,7 +123,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                     mutableUserInfo[WBANetworkingOperationFailingURLResponseDataErrorKey] = data;
                 }
 
-                validationError = AFErrorWithUnderlyingError([NSError errorWithDomain:WBAURLResponseSerializationErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:mutableUserInfo], validationError);
+                validationError = WBAErrorWithUnderlyingError([NSError errorWithDomain:WBAURLResponseSerializationErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:mutableUserInfo], validationError);
             }
 
             responseIsValid = NO;
@@ -140,7 +140,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                 mutableUserInfo[WBANetworkingOperationFailingURLResponseDataErrorKey] = data;
             }
 
-            validationError = AFErrorWithUnderlyingError([NSError errorWithDomain:WBAURLResponseSerializationErrorDomain code:NSURLErrorBadServerResponse userInfo:mutableUserInfo], validationError);
+            validationError = WBAErrorWithUnderlyingError([NSError errorWithDomain:WBAURLResponseSerializationErrorDomain code:NSURLErrorBadServerResponse userInfo:mutableUserInfo], validationError);
 
             responseIsValid = NO;
         }
@@ -232,7 +232,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
+        if (!error || WBAErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
             return nil;
         }
     }
@@ -278,7 +278,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
     }
 
     if (error) {
-        *error = AFErrorWithUnderlyingError(serializationError, *error);
+        *error = WBAErrorWithUnderlyingError(serializationError, *error);
     }
 
     return responseObject;
@@ -345,7 +345,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
+        if (!error || WBAErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
             return nil;
         }
     }
@@ -390,7 +390,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
+        if (!error || WBAErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
             return nil;
         }
     }
@@ -399,7 +399,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
     NSXMLDocument *document = [[NSXMLDocument alloc] initWithData:data options:self.options error:&serializationError];
 
     if (error) {
-        *error = AFErrorWithUnderlyingError(serializationError, *error);
+        *error = WBAErrorWithUnderlyingError(serializationError, *error);
     }
 
     return document;
@@ -473,7 +473,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
+        if (!error || WBAErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
             return nil;
         }
     }
@@ -486,7 +486,7 @@ static id WBAJSONObjectByRemovingKeysWithNullValues(id JSONObject, NSJSONReading
     }
 
     if (error) {
-        *error = AFErrorWithUnderlyingError(serializationError, *error);
+        *error = WBAErrorWithUnderlyingError(serializationError, *error);
     }
 
     return responseObject;
@@ -653,7 +653,7 @@ static UIImage * WBAInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *
                           error:(NSError *__autoreleasing *)error
 {
     if (![self validateResponse:(NSHTTPURLResponse *)response data:data error:error]) {
-        if (!error || AFErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
+        if (!error || WBAErrorOrUnderlyingErrorHasCodeInDomain(*error, NSURLErrorCannotDecodeContentData, WBAURLResponseSerializationErrorDomain)) {
             return nil;
         }
     }
@@ -752,7 +752,7 @@ static UIImage * WBAInflatedImageFromResponseWithDataAtScale(NSHTTPURLResponse *
         id responseObject = [serializer responseObjectForResponse:response data:data error:&serializerError];
         if (responseObject) {
             if (error) {
-                *error = AFErrorWithUnderlyingError(serializerError, *error);
+                *error = WBAErrorWithUnderlyingError(serializerError, *error);
             }
 
             return responseObject;

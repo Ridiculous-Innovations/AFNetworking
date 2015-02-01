@@ -68,7 +68,7 @@ static NSURLRequest * WBANetworkRequestFromNotification(NSNotification *notifica
     return _sharedManager;
 }
 
-+ (NSSet *)keyPathsForValuesAffectingIsNetworkActivityIndicatorVisible {
++ (NSSet *)keyPathsForValuesWBAFectingIsNetworkActivityIndicatorVisible {
     return [NSSet setWithObject:@"activityCount"];
 }
 

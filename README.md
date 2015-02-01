@@ -1,10 +1,4 @@
-<p align="center" >
-  <img src="https://raw.github.com/WBANetworking/WBANetworking/assets/WBANetworking-logo.png" alt="WBANetworking" title="WBANetworking">
-</p>
-
-[![Build Status](https://travis-ci.org/WBANetworking/WBANetworking.svg)](https://travis-ci.org/WBANetworking/WBANetworking)
-
-WBANetworking is a delightful networking library for iOS and Mac OS X. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
+WBANetworking is a delightful networking library for iOS and Mac OS X built from AFNetworking. It's built on top of the [Foundation URL Loading System](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html), extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.
 
 Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to WBANetworking every day. WBANetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.
 

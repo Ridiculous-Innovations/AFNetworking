@@ -31,7 +31,7 @@
 NSString * const WBAURLRequestSerializationErrorDomain = @"com.alamofire.error.serialization.request";
 NSString * const WBANetworkingOperationFailingURLRequestErrorKey = @"com.alamofire.serialization.request.error.response";
 
-typedef NSString * (^AFQueryStringSerializationBlock)(NSURLRequest *request, id parameters, NSError *__autoreleasing *error);
+typedef NSString * (^WBAQueryStringSerializationBlock)(NSURLRequest *request, id parameters, NSError *__autoreleasing *error);
 
 static NSString * WBABase64EncodedStringFromString(NSString *string) {
     NSData *data = [NSData dataWithBytes:[string UTF8String] length:[string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
@@ -76,7 +76,7 @@ static NSString * WBAPercentEscapedQueryStringValueFromStringWithEncoding(NSStri
 
 #pragma mark -
 
-@interface AFQueryStringPair : NSObject
+@interface WBAQueryStringPair : NSObject
 @property (readwrite, nonatomic, strong) id field;
 @property (readwrite, nonatomic, strong) id value;
 
@@ -85,7 +85,7 @@ static NSString * WBAPercentEscapedQueryStringValueFromStringWithEncoding(NSStri
 - (NSString *)URLEncodedStringValueWithEncoding:(NSStringEncoding)stringEncoding;
 @end
 
-@implementation AFQueryStringPair
+@implementation WBAQueryStringPair
 
 - (id)initWithField:(id)field value:(id)value {
     self = [super init];
@@ -111,23 +111,23 @@ static NSString * WBAPercentEscapedQueryStringValueFromStringWithEncoding(NSStri
 
 #pragma mark -
 
-extern NSArray * AFQueryStringPairsFromDictionary(NSDictionary *dictionary);
-extern NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value);
+extern NSArray * WBAQueryStringPairsFromDictionary(NSDictionary *dictionary);
+extern NSArray * WBAQueryStringPairsFromKeyAndValue(NSString *key, id value);
 
-static NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding stringEncoding) {
+static NSString * WBAQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding stringEncoding) {
     NSMutableArray *mutablePairs = [NSMutableArray array];
-    for (AFQueryStringPair *pair in AFQueryStringPairsFromDictionary(parameters)) {
+    for (WBAQueryStringPair *pair in WBAQueryStringPairsFromDictionary(parameters)) {
         [mutablePairs addObject:[pair URLEncodedStringValueWithEncoding:stringEncoding]];
     }
 
     return [mutablePairs componentsJoinedByString:@"&"];
 }
 
-NSArray * AFQueryStringPairsFromDictionary(NSDictionary *dictionary) {
-    return AFQueryStringPairsFromKeyAndValue(nil, dictionary);
+NSArray * WBAQueryStringPairsFromDictionary(NSDictionary *dictionary) {
+    return WBAQueryStringPairsFromKeyAndValue(nil, dictionary);
 }
 
-NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
+NSArray * WBAQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
 
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(compare:)];
@@ -138,21 +138,21 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
             id nestedValue = [dictionary objectForKey:nestedKey];
             if (nestedValue) {
-                [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
+                [mutableQueryStringComponents addObjectsFromArray:WBAQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
             }
         }
     } else if ([value isKindOfClass:[NSArray class]]) {
         NSArray *array = value;
         for (id nestedValue in array) {
-            [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@[]", key], nestedValue)];
+            [mutableQueryStringComponents addObjectsFromArray:WBAQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@[]", key], nestedValue)];
         }
     } else if ([value isKindOfClass:[NSSet class]]) {
         NSSet *set = value;
         for (id obj in [set sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
-            [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue(key, obj)];
+            [mutableQueryStringComponents addObjectsFromArray:WBAQueryStringPairsFromKeyAndValue(key, obj)];
         }
     } else {
-        [mutableQueryStringComponents addObject:[[AFQueryStringPair alloc] initWithField:key value:value]];
+        [mutableQueryStringComponents addObject:[[WBAQueryStringPair alloc] initWithField:key value:value]];
     }
 
     return mutableQueryStringComponents;
@@ -185,7 +185,7 @@ static void *WBAHTTPRequestSerializerObserverContext = &WBAHTTPRequestSerializer
 @property (readwrite, nonatomic, strong) NSMutableSet *mutableObservedChangedKeyPaths;
 @property (readwrite, nonatomic, strong) NSMutableDictionary *mutableHTTPRequestHeaders;
 @property (readwrite, nonatomic, assign) WBAHTTPRequestQueryStringSerializationStyle queryStringSerializationStyle;
-@property (readwrite, nonatomic, copy) AFQueryStringSerializationBlock queryStringSerialization;
+@property (readwrite, nonatomic, copy) WBAQueryStringSerializationBlock queryStringSerialization;
 @end
 
 @implementation WBAHTTPRequestSerializer
@@ -353,7 +353,7 @@ forHTTPHeaderField:(NSString *)field
     __block WBAStreamingMultipartFormData *formData = [[WBAStreamingMultipartFormData alloc] initWithURLRequest:mutableRequest stringEncoding:NSUTF8StringEncoding];
 
     if (parameters) {
-        for (AFQueryStringPair *pair in AFQueryStringPairsFromDictionary(parameters)) {
+        for (WBAQueryStringPair *pair in WBAQueryStringPairsFromDictionary(parameters)) {
             NSData *data = nil;
             if ([pair.value isKindOfClass:[NSData class]]) {
                 data = pair.value;
@@ -462,7 +462,7 @@ forHTTPHeaderField:(NSString *)field
         } else {
             switch (self.queryStringSerializationStyle) {
                 case WBAHTTPRequestQueryStringDefaultStyle:
-                    query = AFQueryStringFromParametersWithEncoding(parameters, self.stringEncoding);
+                    query = WBAQueryStringFromParametersWithEncoding(parameters, self.stringEncoding);
                     break;
             }
         }
@@ -972,10 +972,10 @@ NSTimeInterval const kWBAUploadStream3GSuggestedDelay = 0.2;
 #pragma mark -
 
 typedef enum {
-    AFEncapsulationBoundaryPhase = 1,
+    WBAEncapsulationBoundaryPhase = 1,
     WBAHeaderPhase                = 2,
     WBABodyPhase                  = 3,
-    AFFinalBoundaryPhase         = 4,
+    WBAFinalBoundaryPhase         = 4,
 } WBAHTTPBodyPartReadPhase;
 
 @interface WBAHTTPBodyPart () <NSCopying> {
@@ -1055,7 +1055,7 @@ typedef enum {
 
 - (BOOL)hasBytesAvailable {
     // Allows `read:maxLength:` to be called again if `WBAMultipartFormFinalBoundary` doesn't fit into the available buffer
-    if (_phase == AFFinalBoundaryPhase) {
+    if (_phase == WBAFinalBoundaryPhase) {
         return YES;
     }
 
@@ -1082,7 +1082,7 @@ typedef enum {
 {
     NSInteger totalNumberOfBytesRead = 0;
 
-    if (_phase == AFEncapsulationBoundaryPhase) {
+    if (_phase == WBAEncapsulationBoundaryPhase) {
         NSData *encapsulationBoundaryData = [([self hasInitialBoundary] ? WBAMultipartFormInitialBoundary(self.boundary) : WBAMultipartFormEncapsulationBoundary(self.boundary)) dataUsingEncoding:self.stringEncoding];
         totalNumberOfBytesRead += [self readData:encapsulationBoundaryData intoBuffer:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
     }
@@ -1107,7 +1107,7 @@ typedef enum {
         }
     }
 
-    if (_phase == AFFinalBoundaryPhase) {
+    if (_phase == WBAFinalBoundaryPhase) {
         NSData *closingBoundaryData = ([self hasFinalBoundary] ? [WBAMultipartFormFinalBoundary(self.boundary) dataUsingEncoding:self.stringEncoding] : [NSData data]);
         totalNumberOfBytesRead += [self readData:closingBoundaryData intoBuffer:&buffer[totalNumberOfBytesRead] maxLength:(length - (NSUInteger)totalNumberOfBytesRead)];
     }
@@ -1145,7 +1145,7 @@ typedef enum {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
     switch (_phase) {
-        case AFEncapsulationBoundaryPhase:
+        case WBAEncapsulationBoundaryPhase:
             _phase = WBAHeaderPhase;
             break;
         case WBAHeaderPhase:
@@ -1155,11 +1155,11 @@ typedef enum {
             break;
         case WBABodyPhase:
             [self.inputStream close];
-            _phase = AFFinalBoundaryPhase;
+            _phase = WBAFinalBoundaryPhase;
             break;
-        case AFFinalBoundaryPhase:
+        case WBAFinalBoundaryPhase:
         default:
-            _phase = AFEncapsulationBoundaryPhase;
+            _phase = WBAEncapsulationBoundaryPhase;
             break;
     }
     _phaseReadOffset = 0;
