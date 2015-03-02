@@ -260,10 +260,10 @@ static void *WBAHTTPRequestSerializerObserverContext = &WBAHTTPRequestSerializer
     return [NSDictionary dictionaryWithDictionary:self.mutableHTTPRequestHeaders];
 }
 
-- (void)setValue:(NSString *)value
-forHTTPHeaderField:(NSString *)field
-{
-	[self.mutableHTTPRequestHeaders setValue:value forKey:field];
+- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
+    if (value) {
+        [self.mutableHTTPRequestHeaders setValue:value forKey:field];
+    }
 }
 
 - (NSString *)valueForHTTPHeaderField:(NSString *)field {
