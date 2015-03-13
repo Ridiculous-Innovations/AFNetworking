@@ -39,7 +39,7 @@
 #endif
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-#import <UIKit/UIKit.h>
+@import UIKit;
 #endif
 
 @interface WBAHTTPSessionManager ()
